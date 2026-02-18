@@ -29,7 +29,7 @@ const names = [
     'Charlotte', 'Julian', 'Gavin', 'Charlotte', 'Jacob', 'Emily', 'Henry', 'Ethan', 'Sebastian', 
     'Gavin', 'Jane', 'Connor', 'Liam', 'Logan', 'Joshua', 'John', 'Julian', 'Michael', 'Joshua', 
     'Lincoln', 'Jackson', 'Emma', 'Michael', 'Liam', 'James', 'Jane', 'Abigail', 'Jane', 'Jackson',
-    'Abigail', 'Harper', 'Charlotte', 'Benjamin'
+    'Abigail', 'Harper', 'Charlotte', 'Benjamin', 'AI Agent'
    ];
 
 export {names};

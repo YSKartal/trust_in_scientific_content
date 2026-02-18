@@ -150,7 +150,7 @@ the 0–69 years old group.' (Page 6)
 52 Psychology
 3,459,726 
 
-
+so far I dealt with scraping all metadata automatically and did it for the top 50. currently looking at how to do it for key term extraction. I hope I will have updated sample data this afternoon
 
 9--
 42 Health Sciences4203 Health Services and Systems

@@ -29,6 +29,7 @@ import w_8 from './assets/images/w_8.jpg';
 import w_9 from './assets/images/w_9.jpg';
 import w_10 from './assets/images/w_10.jpg';
 import w_11 from './assets/images/w_11.jpg';
+import r_1 from './assets/images/r_1.jpg';
 import m_1 from './assets/images/m_1.jpg';
 import m_2 from './assets/images/m_2.jpg';
 import m_3 from './assets/images/m_3.jpg';
@@ -62,10 +63,10 @@ function sendMessage(message) {
 
 function ContentView({ order, uid, ct, pid }) {
 
-    const instr_1 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively and you like to share content with your social circle. Your social circle consists of many people who are interested in various topics, especially in Biomedical and Clinical Sciences, Biological Sciences, Health Sciences, and Psychology. Below you will find your timeline.";
+    const instr_1 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively and you like to share content with your social circle.";
     const instr_2 = "Please check the tweets in the timeline again and tell us how trustworthy you find them. Please briefly describe why you shared the respective posts.";
     const instr_3 = ' For each post, please decide whether or not you would like to SHARE them.';
-    const instr_4 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively and you like to share content with your social circle. Your social circle consists of many people who are interested in various topics, especially in Biomedical and Clinical Sciences, Biological Sciences, Health Sciences, and Psychology. On this page, you will find your timeline.";
+    const instr_4 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively ...";
     // const tempURL = 'https://localhost:3001/register/';
     const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi/index.php?i=' + ct;
  var er = 0;
@@ -87,10 +88,10 @@ function ContentView({ order, uid, ct, pid }) {
         Swal.disableButtons();
     }
     useEffect(() => {
-        setTimeout(() => init2 ?Swal.enableButtons() : {} , 5000);
+        setTimeout(() => init2 ?Swal.enableButtons() : {} , 1000);
     }, []);
 
-    var mainOrd = 1;
+    var mainOrd = 4;
     if (order == '2') {
         mainOrd = 2;
     }
@@ -101,22 +102,26 @@ function ContentView({ order, uid, ct, pid }) {
         mainOrd = 4;
     }
 
-    const lPostOrder_1 = [7, 3, 5, 2, 4, 0, 1, 6]
+    const lPostOrder_1 = [0, 1, 2]
+    const lPostOrder_2 = [1, 2, 0]
+    const lPostOrder_3 = [2, 0, 1]
+    const lPostOrder_4 = [1, 0, 2]
+    /*const lPostOrder_1 = [7, 3, 5, 2, 4, 0, 1, 6]
     const lPostOrder_2 = [2, 6, 3, 7, 1, 4, 5, 0]
     const lPostOrder_3 = [3, 0, 6, 5, 7, 1, 4, 2]
-    const lPostOrder_4 = [2, 3, 5, 6, 7, 0, 1, 4]
+    const lPostOrder_4 = [2, 3, 5, 6, 7, 0, 1, 4]*/
     const lPostTzpes_1 = [1, 1, 1, 1, 1, 1, 1, 1]
     const lPostTzpes_2 = [2, 2, 2, 2, 2, 2, 2, 2]
     const lPostTzpes_3 = [3, 3, 3, 3, 3, 3, 3, 3]
-    const lPostTzpes_4 = [0, 0, 0, 0, 0, 0, 0, 0]
+    const lPostTzpes_4 = [0, 5, 0, 0, 0, 0, 0, 0]
 
     const lImages = [pp_5, pp_6, pp_1, pp_7, pp_2, pp_3, pp_8, pp_4]
     //const lUser = ['Mark', 'Tom', 'Suzan', 'Kevin', 'Martin', 'Hans', 'Clara', 'Isabella', 'Max', 'Angelina', 'Joseph', 'Lily', 'Emma', 'Sophia', 'Alice', 'James']
     const lUser = ['Mark', 'Tom', 'Suzan', 'Kevin', 'Lily', 'Emma', 'Martin', 'Isabella', 'Hans', 'Clara', 'Max', 'Angelina', 'Joseph', 'Sophia', 'Alice', 'James']
     const lReplyIdx = [
-        [223, 122, 117],
-        [1, 206, 286],
-        [268, 9, 178],
+        [223],
+        [300],
+        [300],
         [263, 174, 116],
         [224, 106, 46],
         [236, 29, 108],
@@ -125,8 +130,8 @@ function ContentView({ order, uid, ct, pid }) {
     ];
     const lReplyPIdx = [
         [w_1, m_14, w_3],
-        [m_2, m_3, m_4],
-        [w_4, m_5, w_5],
+        [r_1, r_1, m_4],
+        [r_1, m_5, w_5],
         [m_6, m_7, m_8],
         [w_6, m_9, w_7],
         [m_10, w_8, w_9],
@@ -431,9 +436,8 @@ function ContentView({ order, uid, ct, pid }) {
             active ? setActive(false) : setActive(true);
         };
 
-
         if (visibleRT) {
-            return (<Accordion id={'accr' + postIdx}  >
+            return (<Accordion id={'accr' + postIdx} alwaysOpen >
                 <Accordion.Item id={'accri' + postIdx} eventKey="0" onClick={(e) => handleClick(active)}>
                     <Accordion.Header>Show Responses</Accordion.Header>
                     <Accordion.Body>
@@ -460,7 +464,7 @@ function ContentView({ order, uid, ct, pid }) {
         else {
             return (
                 <div>
-                    <Accordion id={'accrc' + postIdx}>
+                    <Accordion  id={'accrc' + postIdx} defaultActiveKey={"0"} alwaysOpen>
                         <Accordion.Item id={'accdr' + postIdx} eventKey="0" onClick={(e) => handleClick(active)}>
                             <Accordion.Header>Show Responses</Accordion.Header>
                             <Accordion.Body>
@@ -740,6 +744,32 @@ function ContentView({ order, uid, ct, pid }) {
             sendMessage({ 'type': 'post', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'sub_type': 'link_click', 'post_id': post_id });
         };
 
+
+        if (cond==5) {
+        return (<div key={btnIdx} className=" border border d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%" }}>
+            <div className="d-flex justify-content-center   " >
+                <div style={{ marginLeft: "1%" }}>
+
+                    <p><img className="circular-image" src={lImages[btnIdx]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
+                </div>
+                <div className="rounded-3 d-grid gap-3" style={{ paddingLeft: "1%", width: "150%", fontSize: "18px" }}>
+                    <p> <b>{lUser[btnIdx]} @{lUser[btnIdx]}</b></p>
+                    <p>  {data.mainPost} <a href={data.mainURL} onClick={(e) => hcLink(data.title)} target="_blank">{data.mainRURL}</a></p>
+                    
+                    <div>
+                        {SetCondition(cond, data, btnIdx)}
+                    </div>
+                    <div>
+                        {ButtonShare(btnIdx)}
+                    </div>
+                </div>
+
+                {RatingTrust(btnIdx)}
+
+            </div>
+        </div>);
+        }
+        else {
         return (<div key={btnIdx} className=" border border d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%" }}>
             <div className="d-flex justify-content-center   " >
                 <div style={{ marginLeft: "1%" }}>
@@ -764,6 +794,8 @@ function ContentView({ order, uid, ct, pid }) {
 
             </div>
         </div>);
+        }
+
     }
 
     var lMainOrd;
