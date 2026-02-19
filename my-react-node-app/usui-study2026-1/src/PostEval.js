@@ -74,7 +74,8 @@ function ContentView({ order, uid, ct, pid }) {
     const instr_3 = ' For each post, please decide whether or not you would like to INTERACT with them.';
     const instr_4 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively ...";
     // const tempURL = 'https://localhost:3001/register/';
-    const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi/index.php?i=' + ct;
+    //const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi/index.php?i=' + ct;
+    const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi500701/index.php?i=' + ct;
     var er = 0;
     const [init, setInit] = useState(true);
     const [init2, setInit2] = useState(false);
@@ -676,28 +677,28 @@ function ContentView({ order, uid, ct, pid }) {
                                 <Form.Text>     </Form.Text>
                                 <Form.Check
                                     inline
-                                    name="group1"
+                                    name="group2"
                                     type={type}
                                     onChange={setOMV1}
                                     id={`inline-${type}-1`}
                                 />
                                 <Form.Check
                                     inline
-                                    name="group1"
+                                    name="group2"
                                     type={type}
                                     onChange={setOMV2}
                                     id={`inline-${type}-2`}
                                 />
                                 <Form.Check
                                     inline
-                                    name="group1"
+                                    name="group2"
                                     type={type}
                                     onChange={setOMV3}
                                     id={`inline-${type}-3`}
                                 />
                                 <Form.Check
                                     inline
-                                    name="group1"
+                                    name="group2"
                                     type={type}
                                     onChange={setOMV4}
                                     id={`inline-${type}-4`}
@@ -705,14 +706,14 @@ function ContentView({ order, uid, ct, pid }) {
                                 <Form.Check
                                     inline
                                     label="Totally"
-                                    name="group1"
+                                    name="group2"
                                     type={type}
                                     onChange={setOMV5}
                                     id={`inline-${type}-5`}
                                 /><Form.Check
                                     inline
                                     label="I don't know"
-                                    name="group1"
+                                    name="group2"
                                     type={type}
                                     onChange={setOMV6}
                                     id={`inline-${type}-5`}
