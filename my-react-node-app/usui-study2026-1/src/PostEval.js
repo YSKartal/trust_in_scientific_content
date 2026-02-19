@@ -69,8 +69,8 @@ function ContentView({ order, uid, ct, pid }) {
 
     const color_1 = '#1121ff'
     const color_2 = '#0d6efd'
-    const instr_1 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively.";
-    const instr_2 = "Please check the posts in the timeline again and tell us how trustworthy you find them.";
+    const instr_1 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively. On this page, you will find your timeline with posts and comments from social media users and independent AI agents.";
+    const instr_2 = 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match your opinion.';
     const instr_3 = ' For each post, please decide whether or not you would like to INTERACT with them.';
     const instr_4 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively ...";
     // const tempURL = 'https://localhost:3001/register/';
@@ -84,7 +84,7 @@ function ContentView({ order, uid, ct, pid }) {
         setInit2(true);
 
         Swal.fire({
-            title: instr_4 + instr_3,
+            title: instr_1 + instr_3,
             showCloseButton: false,
             backdrop: false,
             allowEscapeKey: false,
@@ -175,6 +175,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                opnMatch: 0,
                 shareText: '',
             },
             {
@@ -183,6 +184,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                opnMatch: 0,
                 shareText: ''
             },
             {
@@ -191,6 +193,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                opnMatch: 0,
                 shareText: ''
             },
             {
@@ -199,6 +202,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                opnMatch: 0,
                 shareText: ''
             },
             {
@@ -207,6 +211,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                opnMatch: 0,
                 shareText: ''
             },
             {
@@ -215,6 +220,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                opnMatch: 0,
                 shareText: ''
             },
             {
@@ -223,6 +229,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                opnMatch: 0,
                 shareText: ''
             },
             {
@@ -231,6 +238,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                opnMatch: 0,
                 shareText: ''
             }
         ]
@@ -255,7 +263,7 @@ function ContentView({ order, uid, ct, pid }) {
         sendMessage({ 'type': 'next_page', 'uid': uid, 'ct': ct, 'pid': pid });
 
         Swal.fire({
-            'text': 'Please check the posts in the timeline again and tell us how trustworthy you find them. Please briefly describe why you shared the respective posts in the open text box.',
+            'text': 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match your opinion.',
             didClose: () => window.scrollTo(0, 0)
         }).then(() => {
             window.scrollTo(0, 0);
@@ -283,7 +291,8 @@ function ContentView({ order, uid, ct, pid }) {
         let copiedShopCart = { ...shopCart };
         var done = true;
         for (var i = 0; i < copiedShopCart.posts.length; i++) {
-            if (copiedShopCart.posts[i]['trustRank'] < 1) {
+            console.log(i,copiedShopCart.posts[i]['trustRank'],copiedShopCart.posts[i]['opnMatch'])
+            if (copiedShopCart.posts[i]['trustRank'] < 1 | copiedShopCart.posts[i]['opnMatch'] < 1) {
                 done = false;
                 break;
             }
@@ -291,7 +300,7 @@ function ContentView({ order, uid, ct, pid }) {
         if (done === false) {
             Swal.fire({
                 title: 'Error!',
-                text: 'Please provide a trustworthy rating for all posts!',
+                text: 'Please provide trustworthy ratings and opinion matching degrees for all posts!',
                 icon: 'error',
                 confirmButtonText: 'OK'
             })
@@ -546,6 +555,15 @@ function ContentView({ order, uid, ct, pid }) {
         console.log(shopCart);
     }
 
+    function setOpnMatch(value, btnIdx) {
+        let copiedShopCart = { ...shopCart };
+        copiedShopCart['posts'][btnIdx]['opnMatch'] = value;
+        setShopCart(shopCart => ({
+            ...copiedShopCart
+        }));
+        console.log(shopCart);
+    }
+
     function RatingTrust(btnIdx, type) {
 
         const [rateValue, setRateValue] = useState(0);
@@ -568,6 +586,31 @@ function ContentView({ order, uid, ct, pid }) {
         const setRV5 = () => {
             setRateValue(5);
             shop1(5, btnIdx);
+        };
+        const [oMatchValue, setOMatchValue] = useState(0);
+        const setOMV1 = () => {
+            setOMatchValue(1);
+            setOpnMatch(1, btnIdx);
+        };
+        const setOMV2 = () => {
+            setOMatchValue(2);
+            setOpnMatch(2, btnIdx);
+        };
+        const setOMV3 = () => {
+            setOMatchValue(3);
+            setOpnMatch(3, btnIdx);
+        };
+        const setOMV4 = () => {
+            setOMatchValue(4);
+            setOpnMatch(4, btnIdx);
+        };
+        const setOMV5 = () => {
+            setOMatchValue(5);
+            setOpnMatch(5, btnIdx);
+        };
+        const setOMV6 = () => {
+            setOMatchValue(6);
+            setOpnMatch(6, btnIdx);
         };
 
         const formCheckLabel = "Not at all   ";
@@ -625,7 +668,7 @@ function ContentView({ order, uid, ct, pid }) {
 
                 </div>
                 <div style={{ width: "100%" }}>
-                    <p>The statement of the {type} <b>{type === 'comment' ? 'by ' + names[lReplyIdx[btnIdx][1]] : ''}</b> matches your opinion.</p>
+                    <p>The statement of the {type} matches your opinion.</p>
                     <Form>
                         {['radio'].map((type) => (
                             <div key={`inline-${type}`} className="mb-3">
@@ -635,28 +678,28 @@ function ContentView({ order, uid, ct, pid }) {
                                     inline
                                     name="group1"
                                     type={type}
-                                    onChange={setRV1}
+                                    onChange={setOMV1}
                                     id={`inline-${type}-1`}
                                 />
                                 <Form.Check
                                     inline
                                     name="group1"
                                     type={type}
-                                    onChange={setRV2}
+                                    onChange={setOMV2}
                                     id={`inline-${type}-2`}
                                 />
                                 <Form.Check
                                     inline
                                     name="group1"
                                     type={type}
-                                    onChange={setRV3}
+                                    onChange={setOMV3}
                                     id={`inline-${type}-3`}
                                 />
                                 <Form.Check
                                     inline
                                     name="group1"
                                     type={type}
-                                    onChange={setRV4}
+                                    onChange={setOMV4}
                                     id={`inline-${type}-4`}
                                 />
                                 <Form.Check
@@ -664,14 +707,14 @@ function ContentView({ order, uid, ct, pid }) {
                                     label="Totally"
                                     name="group1"
                                     type={type}
-                                    onChange={setRV5}
+                                    onChange={setOMV5}
                                     id={`inline-${type}-5`}
                                 /><Form.Check
                                     inline
                                     label="I don't know"
                                     name="group1"
                                     type={type}
-                                    onChange={setRV5}
+                                    onChange={setOMV6}
                                     id={`inline-${type}-5`}
                                 />
                             </div>
@@ -774,7 +817,7 @@ function ContentView({ order, uid, ct, pid }) {
                                     <p><img className="circular-image" src={lReplyPIdx[postIdx][0]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
 
                                 </div>
-                                <div style={{ paddingLeft: "1%"}}>
+                                <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][0]]} @{names[lReplyIdx[postIdx][0]]}</b></p>
                                     <p>  {response}  <a href={data.mainURL} onClick={(e) => hcLink(data.title)} target="_blank">{data.supportiveURL}</a> </p>
 
@@ -800,7 +843,7 @@ function ContentView({ order, uid, ct, pid }) {
 
                             </li>
                         </ul>
-                        <ul className="d-grid gap-3 list-unstyled">
+                        <ul  className={ visibleRT ? '' : "d-grid gap-3 list-unstyled"} style={{ display: visibleRT ? 'none' : 'block' }}>
                             {_responses.map((item, index) => (
                                 <li key={item + index}><div className="d-flex justify-content-left ">
                                     <div>
@@ -812,7 +855,7 @@ function ContentView({ order, uid, ct, pid }) {
                                     </div>
                                     <div style={{ paddingLeft: "1%", width: "500px" }}>
                                         <p> <b>{defaultUname} @{defaultUname}</b></p>
-                                        <div> <p style={{ height: 'auto', wordWrap: 'break-word'}}>{item}</p> </div>
+                                        <div> <p style={{ height: 'auto', wordWrap: 'break-word' }}>{item}</p> </div>
 
                                     </div>
                                 </div>
@@ -841,6 +884,7 @@ function ContentView({ order, uid, ct, pid }) {
             sendMessage({ 'type': 'post', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'sub_type': 'link_click', 'post_id': post_id });
         };
 
+        var _responses = repliesJson['accRespId_' + btnIdx];
 
         if (cond == 6) {
             return (<div key={btnIdx} className=" border border d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%" }}>
@@ -870,49 +914,56 @@ function ContentView({ order, uid, ct, pid }) {
         else {
             return (
                 <div key={btnIdx} className=" border-top border-bottom d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%", marginBottom: "2%" }}>
-                    <div className="d-flex justify-content-center" style={{marginTop: '1%', width:"100%"}}>
+                    <div className="d-flex justify-content-center" style={{ marginTop: '1%', width: "100%" }}>
 
                         <div className="rounded-3 d-grid gap-3" style={{ paddingLeft: "1%", width: "100%", fontSize: "18px" }}>
-                            <Container style={{ height: "100%" , width:"100%"}}>
+                            <Container style={{ height: "100%", width: "100%" }}>
                                 <Row >
-                                    <Col md="auto" style={{ marginLeft: "1%" }}>
-                                        <div style={{ marginLeft: "1%"}}>
-                                            <p><img className="circular-image" src={lImages[btnIdx]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
-                                        </div></Col>
-                                    <Col style={{ height: "70%", width:"100%" }}>
-                                        <p> <b>{lUser[btnIdx]} @{lUser[btnIdx]}</b></p>
-                                        <p>  {data.mainPost} </p>
+                                    
+                                    <Col  md={visibleRT ? 7 : 12} style={{ height: "70%" }}>
+                                        
+                                        <div className="d-flex justify-content-left ">
+                                            <div style={{ marginLeft: "%" }}>
+                                                <p><img className="circular-image" src={lImages[btnIdx]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
+                                            </div>
+                                            <div style={{ paddingLeft: "1%" }}>
+                                                <p> <b>{lUser[btnIdx]} @{lUser[btnIdx]}</b></p>
+                                                <p>  {data.mainPost} </p>
+                                            </div>
+                                        </div>
+
+
                                     </Col>
-                                    <Col style={{ width: "100%", display: visibleRT ? 'block' : 'none' }}>
+                                    <Col  md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
                                         {RatingTrust(btnIdx, 'post')}
                                     </Col>
                                 </Row>
 
                             </Container>
 
-                            <Container style={{ height: "100%"}}>
-                                <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4].includes(cond) ? 'block' : 'none' }}><h4>Comments</h4></Row>
-                                <Row style={{marginTop: '1%', width:"100%"}}>
-                                    <Col style={{width:"100%"}}>
+                            <Container style={{ height: "100%" }}>
+                                <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4].includes(cond) | (_responses.length != 0 & !visibleRT) ? 'block' : 'none' }}><h4>Comments</h4></Row>
+                                <Row style={{ marginTop: '1%', width: "100%" }}>
+                                    <Col xs={12} md={visibleRT ? 7 : 12} style={{ }}>
                                         <div>
                                             {AccordionResp(data.replies, data, btnIdx, false, true, cond)}
                                         </div>
                                     </Col>
-                                    <Col style={{ width: "100%", display: visibleRT ? 'block' : 'none' }}>
+                                    <Col xs={6} md={5} style={{  display: visibleRT ? 'block' : 'none' }}>
                                         <div style={{ display: [0, 1, 2, 3, 4].includes(cond) ? 'block' : 'none' }}>
                                             {RatingTrust(btnIdx, 'comment')}
                                         </div>
                                     </Col>
                                 </Row>
                                 <Row><div>
-                                {ButtonsAll(btnIdx)}
-                            </div></Row>
+                                    {ButtonsAll(btnIdx)}
+                                </div></Row>
 
                             </Container>
 
 
 
-                            
+
                         </div>
 
 
@@ -949,7 +1000,7 @@ function ContentView({ order, uid, ct, pid }) {
 
             <p  ><b>Please read the following instruction carefully!</b></p>
             <p>{visibleRT ? instr_2 : instr_1}</p>
-            <p><b>{visibleRT ? '' : 'For each post, please decide whether or not you would like interact with it.'}</b></p>
+            <p><b>{visibleRT ? '' : 'For each post, please decide whether or not you would like interact with any type of actions: Comment, Share, Like, and Bookmark.'}</b></p>
         </div>
         <hr className="hr" />
 
