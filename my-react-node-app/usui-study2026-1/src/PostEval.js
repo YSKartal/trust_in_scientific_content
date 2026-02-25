@@ -69,9 +69,9 @@ function ContentView({ order, uid, ct, pid }) {
 
     const color_1 = '#1121ff'
     const color_2 = '#0d6efd'
-    const instr_1 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively. On this page, you will find your timeline with posts and comments from social media users and independent AI agents.";
-    const instr_2 = 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match your opinion.';
-    const instr_3 = ' For each post, please decide whether or not you would like to INTERACT with them.';
+    const instr_1 = "Please imagine that you are an active social media user who regularly engages with content online. You will be presented with a timeline containing posts and comments created by other users and by AI agent that operate independently of the social media platform. ";
+    const instr_2 = 'Please review the timeline again. For each post and comment, rate (a) how trustworthy you find it and, for posts only, (b) the extent to which it aligns with your own opinion.';
+    const instr_3 = 'For each post, indicate whether you would choose to interact with it (e.g., like, comment, share, or bookmark). ';
     const instr_4 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively ...";
     // const tempURL = 'https://localhost:3001/register/';
     //const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi/index.php?i=' + ct;
@@ -95,7 +95,7 @@ function ContentView({ order, uid, ct, pid }) {
         Swal.disableButtons();
     }
     useEffect(() => {
-        setTimeout(() => init2 ? Swal.enableButtons() : {}, 1000);
+        setTimeout(() => init2 ? Swal.enableButtons() : {}, 5000);
     }, []);
 
     var mainOrd = 4;
@@ -264,7 +264,7 @@ function ContentView({ order, uid, ct, pid }) {
         sendMessage({ 'type': 'next_page', 'uid': uid, 'ct': ct, 'pid': pid });
 
         Swal.fire({
-            'text': 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match your opinion.',
+            'text': 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match my opinion.',
             didClose: () => window.scrollTo(0, 0)
         }).then(() => {
             window.scrollTo(0, 0);
@@ -668,7 +668,7 @@ function ContentView({ order, uid, ct, pid }) {
                     </Form>
 
                 </div>
-                <div style={{ width: "100%" }}>
+                <div style={{ width: "100%", display: type == "comment" ? 'none' : 'block'}}>
                     <p>The statement of the {type} matches your opinion.</p>
                     <Form>
                         {['radio'].map((type) => (
@@ -740,6 +740,7 @@ function ContentView({ order, uid, ct, pid }) {
         //var _responses = responses.concat(repliesJson['accRespId_1']);
         var lnewreplies = lSupReplies;
         var response = "";
+        var dataUrl = data.supportiveURL;
         if (cond == 5) {
             ifH = false;
             ifAI = false;
@@ -748,21 +749,25 @@ function ContentView({ order, uid, ct, pid }) {
             ifH = true;
             ifAI = false;
             response = lSupReplies[lMainOrd[postIdx]];
+            dataUrl = data.supportiveURL;
         }
         else if (cond == 2) {
             ifH = true;
             ifAI = false;
             response = lConReplies[lMainOrd[postIdx]];
+            dataUrl = data.contradictingURL;
         }
         else if (cond == 3) {
             ifH = false;
             ifAI = true;
-            response = lSupReplies[lMainOrd[postIdx]];
+            response = lConReplies[lMainOrd[postIdx]];
+            dataUrl = data.supportiveURL;
         }
         else if (cond == 4) {
             ifH = false;
             ifAI = true;
             response = lConReplies[lMainOrd[postIdx]];
+            dataUrl = data.contradictingURL;
         }
 
         var _responses = repliesJson['accRespId_' + postIdx];
@@ -820,7 +825,7 @@ function ContentView({ order, uid, ct, pid }) {
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][0]]} @{names[lReplyIdx[postIdx][0]]}</b></p>
-                                    <p>  {response}  <a href={data.mainURL} onClick={(e) => hcLink(data.title)} target="_blank">{data.supportiveURL}</a> </p>
+                                    <p>  {response}  <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
                             </div>
@@ -835,7 +840,7 @@ function ContentView({ order, uid, ct, pid }) {
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][1]]} @{names[lReplyIdx[postIdx][1]]}</b></p>
-                                    <p>  {response} <a href={data.supportiveURL} onClick={(e) => hcLink(data.title)} target="_blank">{data.supportiveURL}</a> </p>
+                                    <p>  {response} <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
 
@@ -914,7 +919,7 @@ function ContentView({ order, uid, ct, pid }) {
         }
         else {
             return (
-                <div key={btnIdx} className=" border-top border-bottom d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%", marginBottom: "2%" }}>
+                <div key={btnIdx} className="border border-top border-bottom d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%", marginBottom: "2%" }}>
                     <div className="d-flex justify-content-center" style={{ marginTop: '1%', width: "100%" }}>
 
                         <div className="rounded-3 d-grid gap-3" style={{ paddingLeft: "1%", width: "100%", fontSize: "18px" }}>
@@ -1006,7 +1011,7 @@ function ContentView({ order, uid, ct, pid }) {
         <hr className="hr" />
 
         <h1>Timeline</h1>
-        <div className="border border-right rounded-3 " style={{ marginTop: "2%", marginBottom: "2%" }}>
+        <div className=" border-right rounded-3 " style={{ marginTop: "2%", marginBottom: "2%" }}>
             <div>
                 {mdata.posts.map((item, index) => (
                     setOrder(mainOrd, index)

@@ -45,7 +45,7 @@ const mdata = {
     },
     {
         title: "Post 3",
-        mainPost: "I found a research saying global warming is primarily caused by natural solar factors, much less sensitive to greenhouse gases than models suggest.",
+        mainPost: "I found a study saying global warming is primarily caused by natural solar factors, much less sensitive to greenhouse gases than models suggest.",
         mainURL: "https://www.mdpi.com/1467-3045/44/3/73#B39-cimb-44-00073",
         supportiveURL: "https://scienceofclimatechange.org/wp-content/uploads/SCC-Vol5.3-Huijser-Balancing-Act.pdf",
         supportiveHComment: "I know this paper proves it: ",
@@ -67,7 +67,7 @@ const mdata = {
     },
     {
         title: "Post 4",
-        mainPost: "A friend told me there is a research about powering birth rates is not a viable solution to climate change because the impact is too small and takes too long.",
+        mainPost: "I’ve been told that there is a research lowering birth rates is not a viable solution to climate change because the impact is too small and takes too long.",
         mainURL: "https://www.mdpi.com/1467-3045/44/3/73#B39-cimb-44-00073",
         supportiveURL: "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4535022",
         supportiveHComment: "True, check this evidence paper: ",
