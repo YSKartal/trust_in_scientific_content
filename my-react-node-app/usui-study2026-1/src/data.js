@@ -45,7 +45,7 @@ const mdata = {
     },
     {
         title: "Post 3",
-        mainPost: "I found a study saying global warming is primarily caused by natural solar factors, much less sensitive to greenhouse gases than models suggest.",
+        mainPost: "I found a study and it turns out natural factors drive 2/3 of global warming, leaving only 1/3 caused by greenhouse gases.",
         mainURL: "https://www.mdpi.com/1467-3045/44/3/73#B39-cimb-44-00073",
         supportiveURL: "https://scienceofclimatechange.org/wp-content/uploads/SCC-Vol5.3-Huijser-Balancing-Act.pdf",
         supportiveHComment: "I know this paper proves it: ",
