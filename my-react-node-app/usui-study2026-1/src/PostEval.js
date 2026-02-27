@@ -272,7 +272,7 @@ function ContentView({ order, uid, ct, pid }) {
         sendMessage({ 'type': 'next_page', 'uid': uid, 'ct': ct, 'pid': pid });
 
         Swal.fire({
-            'text': 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match my opinion.',
+            'text': 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match your opinion.',
             didClose: () => window.scrollTo(0, 0)
         }).then(() => {
             window.scrollTo(0, 0);
