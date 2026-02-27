@@ -176,6 +176,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                trustRankComment: 0,
                 opnMatch: 0,
                 shareText: '',
             },
@@ -185,6 +186,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                trustRankComment: 0,
                 opnMatch: 0,
                 shareText: ''
             },
@@ -194,6 +196,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                trustRankComment: 0,
                 opnMatch: 0,
                 shareText: ''
             },
@@ -203,6 +206,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                trustRankComment: 0,
                 opnMatch: 0,
                 shareText: ''
             },
@@ -212,6 +216,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                trustRankComment: 0,
                 opnMatch: 0,
                 shareText: ''
             },
@@ -221,6 +226,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                trustRankComment: 0,
                 opnMatch: 0,
                 shareText: ''
             },
@@ -230,6 +236,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                trustRankComment: 0,
                 opnMatch: 0,
                 shareText: ''
             },
@@ -239,6 +246,7 @@ function ContentView({ order, uid, ct, pid }) {
                 bookmark: 0,
                 reply: 0,
                 trustRank: 0,
+                trustRankComment: 0,
                 opnMatch: 0,
                 shareText: ''
             }
@@ -293,7 +301,7 @@ function ContentView({ order, uid, ct, pid }) {
         var done = true;
         for (var i = 0; i < copiedShopCart.posts.length; i++) {
             console.log(i,copiedShopCart.posts[i]['trustRank'],copiedShopCart.posts[i]['opnMatch'])
-            if (copiedShopCart.posts[i]['trustRank'] < 1 | copiedShopCart.posts[i]['opnMatch'] < 1) {
+            if (copiedShopCart.posts[i]['trustRank'] < 1 | copiedShopCart.posts[i]['opnMatch'] < 1 | (lPostTzpes_4[lPostOrder_4[i]] != 5 & copiedShopCart.posts[i]['trustRankComment'] < 1)) {
                 done = false;
                 break;
             }
@@ -565,7 +573,16 @@ function ContentView({ order, uid, ct, pid }) {
         console.log(shopCart);
     }
 
-    function RatingTrust(btnIdx, type) {
+    function setEntity(entity, value, btnIdx) {
+        let copiedShopCart = { ...shopCart };
+        copiedShopCart['posts'][btnIdx][entity] = value;
+        setShopCart(shopCart => ({
+            ...copiedShopCart
+        }));
+        console.log(shopCart);
+    }
+
+    function RatingTrust(btnIdx, textType) {
 
         const [rateValue, setRateValue] = useState(0);
         const setRV1 = () => {
@@ -613,15 +630,36 @@ function ContentView({ order, uid, ct, pid }) {
             setOMatchValue(6);
             setOpnMatch(6, btnIdx);
         };
+        const [rateValueComment, setRateValueComment] = useState(0);
+        const setRVC1 = () => {
+            setRateValueComment(1);
+            setEntity('trustRankComment', 1, btnIdx);
+        };
+        const setRVC2 = () => {
+            setRateValueComment(2);
+            setEntity('trustRankComment', 2, btnIdx);
+        };
+        const setRVC3 = () => {
+            setRateValueComment(3);
+            setEntity('trustRankComment', 3, btnIdx);
+        };
+        const setRVC4 = () => {
+            setRateValueComment(4);
+            setEntity('trustRankComment', 4, btnIdx);
+        };
+        const setRVC5 = () => {
+            setRateValueComment(5);
+            setEntity('trustRankComment', 5, btnIdx);
+        };
 
         const formCheckLabel = "Not at all   ";
 
-        var int_text = type === 'comment' ? 'The statement of the {type} by <b>{names[lReplyIdx[btnIdx][1]]}</b> matches my opinion.' : 'The statement of the {type} by <b>{names[lReplyIdx[btnIdx][1]]}</b> matches my opinion.';
+        var int_text = textType === 'comment' ? 'The statement of the {type} by <b>{names[lReplyIdx[btnIdx][1]]}</b> matches my opinion.' : 'The statement of the {type} by <b>{names[lReplyIdx[btnIdx][1]]}</b> matches my opinion.';
         if (visibleRT) {
 
             return (<div className="d-flex align-items-start flex-column" style={{ width: "100%", marginLeft: "5%", marginTop: "5%", fontSize: "18px" }}>
                 <div style={{ width: "100%" }}>
-                    <p>How trustworthy do you find this {type}?</p>
+                    <p>How trustworthy do you find this {textType}?</p>
                     <Form>
                         {['radio'].map((type) => (
                             <div key={`inline-${type}`} className="mb-3">
@@ -631,28 +669,28 @@ function ContentView({ order, uid, ct, pid }) {
                                     inline
                                     name="group1"
                                     type={type}
-                                    onChange={setRV1}
+                                    onChange={textType == "comment" ? setRVC1 : setRV1}
                                     id={`inline-${type}-1`}
                                 />
                                 <Form.Check
                                     inline
                                     name="group1"
                                     type={type}
-                                    onChange={setRV2}
+                                    onChange={textType == "comment" ? setRVC2 : setRV2}
                                     id={`inline-${type}-2`}
                                 />
                                 <Form.Check
                                     inline
                                     name="group1"
                                     type={type}
-                                    onChange={setRV3}
+                                    onChange={textType == "comment" ? setRVC3 : setRV3}
                                     id={`inline-${type}-3`}
                                 />
                                 <Form.Check
                                     inline
                                     name="group1"
                                     type={type}
-                                    onChange={setRV4}
+                                    onChange={textType == "comment" ? setRVC4 : setRV4}
                                     id={`inline-${type}-4`}
                                 />
                                 <Form.Check
@@ -660,7 +698,7 @@ function ContentView({ order, uid, ct, pid }) {
                                     label="Totally"
                                     name="group1"
                                     type={type}
-                                    onChange={setRV5}
+                                    onChange={textType == "comment" ? setRVC5 : setRV5}
                                     id={`inline-${type}-5`}
                                 />
                             </div>
@@ -668,8 +706,8 @@ function ContentView({ order, uid, ct, pid }) {
                     </Form>
 
                 </div>
-                <div style={{ width: "100%", display: type == "comment" ? 'none' : 'block'}}>
-                    <p>The statement of the {type} matches your opinion.</p>
+                <div style={{ width: "100%", display: textType == "comment" ? 'none' : 'block'}}>
+                    <p>The statement of the {textType} matches your opinion.</p>
                     <Form>
                         {['radio'].map((type) => (
                             <div key={`inline-${type}`} className="mb-3">
@@ -825,7 +863,7 @@ function ContentView({ order, uid, ct, pid }) {
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][0]]} @{names[lReplyIdx[postIdx][0]]}</b></p>
-                                    <p>  {response}  <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
+                                    <p style={{wordBreak: "break-all"}} >  {response}  <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
                             </div>
@@ -840,7 +878,7 @@ function ContentView({ order, uid, ct, pid }) {
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][1]]} @{names[lReplyIdx[postIdx][1]]}</b></p>
-                                    <p>  {response} <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
+                                    <p style={{wordBreak: "break-all"}}>  {response} <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
 
