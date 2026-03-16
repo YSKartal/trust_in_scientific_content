@@ -53,7 +53,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-
+import withReactContent from 'sweetalert2-react-content'
 
 const tempURL = process.env.REACT_APP_NODE_URL_R;
 function sendMessage(message) {
@@ -65,9 +65,9 @@ function sendMessage(message) {
         });
 }
 
-function ContentView({ order, uid, ct, pid }) {
+function ContentView({order, uid, ct, pid }) {
 
-    const color_1 = '#1121ff'
+    const color_1 = '#0e46ff'
     const color_2 = '#0d6efd'
     const instr_1 = "Please imagine that you are an active social media user who regularly engages with content online. You will be presented with a timeline containing posts and comments created by other users and by AI agent that operate independently of the social media platform. ";
     const instr_2 = 'Please review the timeline again. For each post and comment, rate (a) how trustworthy you find it and, for posts only, (b) the extent to which it aligns with your own opinion.';
@@ -77,6 +77,90 @@ function ContentView({ order, uid, ct, pid }) {
     //const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi/index.php?i=' + ct;
     const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi500701/index.php?i=' + ct;
     var er = 0;
+
+    var regOrder = [0, 1, 2, 3, 4, 5, 6, 7];
+    const getShuffled = () => [...regOrder].sort(() => Math.random() - 0.5);
+    const [lPostOrder_1, setlPostOrder_1] = useState(getShuffled);
+    const [lPostOrder_2, setlPostOrder_2] = useState(getShuffled);
+    const [lPostOrder_3, setlPostOrder_3] = useState(getShuffled);
+    const [lPostOrder_4, setlPostOrder_4] = useState(getShuffled);
+
+    console.log(lPostOrder_3, lPostOrder_4);
+    /*const lPostOrder_1 = [7, 3, 5, 2, 4, 0, 1, 6]
+    const lPostOrder_2 = [2, 6, 3, 7, 1, 4, 5, 0]
+    const lPostOrder_3 = [3, 0, 6, 5, 7, 1, 4, 2]
+    const lPostOrder_4 = [2, 3, 5, 6, 7, 0, 1, 4]*/
+    // 1: human +; 2: human -; 3: AI +; 4: AI -
+    const lPostTzpes_1 = [1, 3, 4, 2, 5, 5, 5, 5]
+    const lPostTzpes_2 = [3, 2, 1, 4, 5, 5, 5, 5]
+    const lPostTzpes_3 = [2, 3, 4, 1, 5, 5, 5, 5]
+    const lPostTzpes_4 = [4, 1, 2, 3, 5, 5, 5, 5]
+
+    //const lImages = [pp_5, pp_6, pp_1, pp_7, pp_2, pp_3, pp_8, pp_4]
+    const lImages = [pp_0, pp_0, pp_0, pp_0, pp_0, pp_0, pp_0, pp_0]
+    //const lUser = ['Mark', 'Tom', 'Suzan', 'Kevin', 'Martin', 'Hans', 'Clara', 'Isabella', 'Max', 'Angelina', 'Joseph', 'Lily', 'Emma', 'Sophia', 'Alice', 'James']
+    const lUser = ['Mark', 'Tom', 'Suzan', 'Kevin', 'Lily', 'Emma', 'Martin', 'Isabella', 'Hans', 'Clara', 'Max', 'Angelina', 'Joseph', 'Sophia', 'Alice', 'James']
+    const lReplyIdx = [
+        [174, 300],
+        [106, 300],
+        [116, 300],
+        [224, 300, 174, 116],
+        [224, 300, 46],
+        [236, 300, 108],
+        [198, 300, 65],
+        [136, 300, 239]
+    ];
+    /*const lReplyPIdx = [
+        [m_1, r_1, r_1],
+        [w_1, r_1, r_1],
+        [m_1, r_1, r_1],
+        [w_1, r_1, r_1],
+        [r_1, r_1, w_7],
+        [m_10, r_1, w_9],
+        [w_10, r_1, m_1],
+        [m_11, r_1, w_11]
+        ];*/
+
+    const lReplyPIdx = [
+        [pp_0, r_1, r_1],
+        [pp_0, r_1, r_1],
+        [pp_0, r_1, r_1],
+        [pp_0, r_1, r_1],
+        [pp_0, r_1, pp_0],
+        [pp_0, r_1, pp_0],
+        [pp_0, r_1, pp_0],
+        [pp_0, r_1, pp_0]
+    ];
+
+    const defaultPp = pp_0;
+    const defaultUname = "[username]";
+
+    var lIntCnt = [
+        [3, 10, 35],
+        [4, 9, 36],
+        [3, 11, 36],
+        [5, 9, 34],
+        [3, 10, 34],
+        [5, 10, 33],
+        [4, 11, 36],
+        [4, 9, 35]
+    ];
+
+    const initialPost = {
+        share: 0,
+        like: 0,
+        bookmark: 0,
+        reply: 0,
+        trustRank: 0,
+        trustRankComment: 0,
+        opnMatch: 0,
+        shareText: '',
+    };
+
+    const [shopCart, setShopCart] = useState({
+        posts: Array.from({ length: 8 }, () => ({ ...initialPost }))
+    });
+
     const [init, setInit] = useState(true);
     const [init2, setInit2] = useState(false);
     if (init) {
@@ -87,10 +171,11 @@ function ContentView({ order, uid, ct, pid }) {
         Swal.fire({
             title: instr_1 + instr_3,
             showCloseButton: false,
-            backdrop: false,
             allowEscapeKey: false,
             animation: false,
-
+            allowOutsideClick: false,
+            topLayer: true,
+            icon: 'warning',
         });
         Swal.disableButtons();
     }
@@ -113,146 +198,6 @@ function ContentView({ order, uid, ct, pid }) {
             mainOrd = 4;
             break;
     }
-
-    const lPostOrder_1 = [0, 1, 2]
-    const lPostOrder_2 = [1, 2, 0]
-    const lPostOrder_3 = [2, 0, 1]
-    const lPostOrder_4s = [2, 3, 5, 6, 7, 0, 1, 4]
-    //const lPostOrder_4 = [0, 1, 2, 3, 4, 5, 6, 7]
-    const lPostOrder_4 = [3, 0, 6, 5, 7, 1, 4, 2]
-    /*const lPostOrder_1 = [7, 3, 5, 2, 4, 0, 1, 6]
-    const lPostOrder_2 = [2, 6, 3, 7, 1, 4, 5, 0]
-    const lPostOrder_3 = [3, 0, 6, 5, 7, 1, 4, 2]
-    const lPostOrder_4 = [2, 3, 5, 6, 7, 0, 1, 4]*/
-    const lPostTzpes_1 = [1, 1, 1, 1, 1, 1, 1, 1]
-    const lPostTzpes_2 = [2, 2, 2, 2, 2, 2, 2, 2]
-    const lPostTzpes_3 = [3, 3, 3, 3, 3, 3, 3, 3]
-    const lPostTzpes_4 = [1, 2, 3, 4, 5, 5, 5, 5]
-
-    const lImages = [pp_5, pp_6, pp_1, pp_7, pp_2, pp_3, pp_8, pp_4]
-    //const lUser = ['Mark', 'Tom', 'Suzan', 'Kevin', 'Martin', 'Hans', 'Clara', 'Isabella', 'Max', 'Angelina', 'Joseph', 'Lily', 'Emma', 'Sophia', 'Alice', 'James']
-    const lUser = ['Mark', 'Tom', 'Suzan', 'Kevin', 'Lily', 'Emma', 'Martin', 'Isabella', 'Hans', 'Clara', 'Max', 'Angelina', 'Joseph', 'Sophia', 'Alice', 'James']
-    const lReplyIdx = [
-        [174, 300],
-        [106, 300],
-        [116, 300],
-        [224, 300, 174, 116],
-        [224, 300, 46],
-        [236, 300, 108],
-        [198, 300, 65],
-        [136, 300, 239]
-    ];
-    const lReplyPIdx = [
-        [m_1, r_1, r_1],
-        [w_1, r_1, r_1],
-        [m_1, r_1, r_1],
-        [w_1, r_1, r_1],
-        [r_1, r_1, w_7],
-        [m_10, r_1, w_9],
-        [w_10, r_1, m_1],
-        [m_11, r_1, w_11]
-    ];
-
-    const defaultPp = pp_0;
-    const defaultUname = "[username]";
-
-    var lIntCnt = [
-        [3, 10, 35],
-        [4, 9, 36],
-        [3, 11, 36],
-        [5, 9, 34],
-        [3, 10, 34],
-        [5, 10, 33],
-        [4, 11, 36],
-        [4, 9, 35]
-    ];
-
-
-    const [shopCart, setShopCart] = useState({
-        posts: [
-            {
-                share: 0,
-                like: 0,
-                bookmark: 0,
-                reply: 0,
-                trustRank: 0,
-                trustRankComment: 0,
-                opnMatch: 0,
-                shareText: '',
-            },
-            {
-                share: 0,
-                like: 0,
-                bookmark: 0,
-                reply: 0,
-                trustRank: 0,
-                trustRankComment: 0,
-                opnMatch: 0,
-                shareText: ''
-            },
-            {
-                share: 0,
-                like: 0,
-                bookmark: 0,
-                reply: 0,
-                trustRank: 0,
-                trustRankComment: 0,
-                opnMatch: 0,
-                shareText: ''
-            },
-            {
-                share: 0,
-                like: 0,
-                bookmark: 0,
-                reply: 0,
-                trustRank: 0,
-                trustRankComment: 0,
-                opnMatch: 0,
-                shareText: ''
-            },
-            {
-                share: 0,
-                like: 0,
-                bookmark: 0,
-                reply: 0,
-                trustRank: 0,
-                trustRankComment: 0,
-                opnMatch: 0,
-                shareText: ''
-            },
-            {
-                share: 0,
-                like: 0,
-                bookmark: 0,
-                reply: 0,
-                trustRank: 0,
-                trustRankComment: 0,
-                opnMatch: 0,
-                shareText: ''
-            },
-            {
-                share: 0,
-                like: 0,
-                bookmark: 0,
-                reply: 0,
-                trustRank: 0,
-                trustRankComment: 0,
-                opnMatch: 0,
-                shareText: ''
-            },
-            {
-                share: 0,
-                like: 0,
-                bookmark: 0,
-                reply: 0,
-                trustRank: 0,
-                trustRankComment: 0,
-                opnMatch: 0,
-                shareText: ''
-            }
-        ]
-    });
-
     //var repliesJson = {'accRespId_1': ['wewefwfe']}
     //const [repliesJson, setrepliesJson] = useState({'accRespId_1': ['wewefwfe']})
     const lSupReplies = ['Correct, this aligns with the report here: ', 'Exactly, as shown in this paper', 'Here is a paper supporting that', 'Backed by this study: '];
@@ -273,6 +218,7 @@ function ContentView({ order, uid, ct, pid }) {
 
         Swal.fire({
             'text': 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match your opinion.',
+            allowOutsideClick: false,
             didClose: () => window.scrollTo(0, 0)
         }).then(() => {
             window.scrollTo(0, 0);
@@ -300,7 +246,7 @@ function ContentView({ order, uid, ct, pid }) {
         let copiedShopCart = { ...shopCart };
         var done = true;
         for (var i = 0; i < copiedShopCart.posts.length; i++) {
-            console.log(i,copiedShopCart.posts[i]['trustRank'],copiedShopCart.posts[i]['opnMatch'])
+            console.log(i, copiedShopCart.posts[i]['trustRank'], copiedShopCart.posts[i]['opnMatch'])
             if (copiedShopCart.posts[i]['trustRank'] < 1 | copiedShopCart.posts[i]['opnMatch'] < 1 | (lPostTzpes_4[lPostOrder_4[i]] != 5 & copiedShopCart.posts[i]['trustRankComment'] < 1)) {
                 done = false;
                 break;
@@ -491,19 +437,7 @@ function ContentView({ order, uid, ct, pid }) {
         return (
             <div style={{ display: visibleRT ? 'none' : 'block' }}>
                 <div className="eqi-container">
-                    <Button
-                        disabled={visibleRT}
-                        className="btn-style"
-                        onClick={handleReplyClick}
-                        onChange={(e) => setChecked(e.currentTarget.checked)}
-                    >
-                        <p style={{ height: "300", marginBottom: "0" }}>
-                            <svg id='rt-icon' style={{ height: "35px", width: "35px", fill: iconReplyColor, stroke: color_1, strokeWidth: "10" }} className='icon-style' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
 
-                                <path xmlns="http://www.w3.org/2000/svg" d="m 139.97631,148.23641 c -9.65791,0.006 -18.14936,10.69925 -18.17603,21.95972 l -0.40632,169.55175 31.34842,-28.62591 212.1922,0.52527 c 11.29934,0.0253 20.61603,-11.44018 20.6167,-22.24361 l 0.008,-119.04058 c 7e-4,-10.62362 -9.93752,-22.26518 -20.48568,-22.25847 z m 23.72718,226.62525 -49.28559,43.33563 c -13.62585,11.98056 -33.729582,9.84951 -44.902816,-4.76201 -4.678367,-6.11615 -7.234388,-13.78346 -7.234388,-21.69255 V 169.58526 c 0,-47.23789 35.712051,-85.531853 79.765064,-85.531853 h 223.34192 c 44.05294,-2.42e-4 79.7653,38.293693 79.7653,85.531593 v 119.74479 c 0,47.23753 -35.71236,85.53187 -79.76502,85.53187 z" /></svg>
-                            {buttonReplyText}
-                        </p>
-                    </Button>
                     <Button
                         disabled={visibleRT}
                         title="Share"
@@ -706,8 +640,8 @@ function ContentView({ order, uid, ct, pid }) {
                     </Form>
 
                 </div>
-                <div style={{ width: "100%", display: textType == "comment" ? 'none' : 'block'}}>
-                    <p>The statement of the {textType} matches your opinion.</p>
+                <div style={{ width: "100%", display: textType == "comment" ? 'none' : 'block' }}>
+                    <p>I believe the statement is true.</p>
                     <Form>
                         {['radio'].map((type) => (
                             <div key={`inline-${type}`} className="mb-3">
@@ -748,13 +682,6 @@ function ContentView({ order, uid, ct, pid }) {
                                     type={type}
                                     onChange={setOMV5}
                                     id={`inline-${type}-5`}
-                                /><Form.Check
-                                    inline
-                                    label="I don't know"
-                                    name="group2"
-                                    type={type}
-                                    onChange={setOMV6}
-                                    id={`inline-${type}-5`}
                                 />
                             </div>
                         ))}
@@ -773,12 +700,14 @@ function ContentView({ order, uid, ct, pid }) {
         }
     }
 
-    function AccordionResp(responses, data, postIdx, ifH, ifAI, cond) {
+    function AccordionResp(responses, data, postIdx, cond) {
 
         //var _responses = responses.concat(repliesJson['accRespId_1']);
         var lnewreplies = lSupReplies;
         var response = "";
         var dataUrl = data.supportiveURL;
+        var ifH = false;
+        var ifAI = false;
         if (cond == 5) {
             ifH = false;
             ifAI = false;
@@ -798,7 +727,7 @@ function ContentView({ order, uid, ct, pid }) {
         else if (cond == 3) {
             ifH = false;
             ifAI = true;
-            response = lConReplies[lMainOrd[postIdx]];
+            response = lSupReplies[lMainOrd[postIdx]];
             dataUrl = data.supportiveURL;
         }
         else if (cond == 4) {
@@ -858,12 +787,12 @@ function ContentView({ order, uid, ct, pid }) {
                                     <svg id='rt-icon' style={{ height: "40px", width: "30px", fill: color_1 }} xmlns="http://www.w3.org/2000/svg" transform="rotate(180)" ><path xmlns="http://www.w3.org/2000/svg" d="M1.307,5.988 L6.616,1.343 C7.027,0.933 7.507,0.864 7.918,1.275 L7.918,4.407 C8.014,4.406 8.098,4.406 8.147,4.406 C13.163,4.406 16.885,7.969 16.885,12.816 C16.885,14.504 16.111,13.889 15.788,13.3 C14.266,10.52 11.591,8.623 8.107,8.623 C8.066,8.623 7.996,8.624 7.917,8.624 L7.917,11.689 C7.506,12.099 6.976,12.05 6.615,11.757 L1.306,7.474 C0.897,7.064 0.897,6.399 1.307,5.988 L1.307,5.988 Z" fill="#434343" class="si-glyph-fill"> </path></svg>
                                 </div>
                                 <div style={{ marginLeft: "1%" }}>
-                                    <p><img className="circular-image" src={lReplyPIdx[postIdx][0]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
+                                    <p><img className="border circular-image" src={lReplyPIdx[postIdx][0]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
 
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][0]]} @{names[lReplyIdx[postIdx][0]]}</b></p>
-                                    <p style={{wordBreak: "break-all"}} >  {response}  <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
+                                    <p style={{ wordBreak: "break-all" }} >  {response}  <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
                             </div>
@@ -878,7 +807,7 @@ function ContentView({ order, uid, ct, pid }) {
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][1]]} @{names[lReplyIdx[postIdx][1]]}</b></p>
-                                    <p style={{wordBreak: "break-all"}}>  {response} <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
+                                    <p style={{ wordBreak: "break-all" }}>  {response} <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
 
@@ -887,7 +816,7 @@ function ContentView({ order, uid, ct, pid }) {
 
                             </li>
                         </ul>
-                        <ul  className={ visibleRT ? '' : "d-grid gap-3 list-unstyled"} style={{ display: visibleRT ? 'none' : 'block' }}>
+                        <ul className={visibleRT ? '' : "d-grid gap-3 list-unstyled"} style={{ display: visibleRT ? 'none' : 'block' }}>
                             {_responses.map((item, index) => (
                                 <li key={item + index}><div className="d-flex justify-content-left ">
                                     <div>
@@ -924,6 +853,9 @@ function ContentView({ order, uid, ct, pid }) {
 
     function SetPost(data, cond, btnIdx) {
 
+
+
+
         function hcLink(post_id) {
             sendMessage({ 'type': 'post', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'sub_type': 'link_click', 'post_id': post_id });
         };
@@ -935,7 +867,7 @@ function ContentView({ order, uid, ct, pid }) {
                 <div className="d-flex justify-content-center" >
                     <div style={{ marginLeft: "1%" }}>
 
-                        <p><img className="circular-image" src={lImages[btnIdx]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
+                        <p><img className="border circular-image" src={lImages[btnIdx]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
                     </div>
                     <div className="rounded-3 d-grid gap-3" style={{ paddingLeft: "1%", width: "150%", fontSize: "18px" }}>
                         <p> <b>{lUser[btnIdx]} @{lUser[btnIdx]}</b></p>
@@ -963,12 +895,12 @@ function ContentView({ order, uid, ct, pid }) {
                         <div className="rounded-3 d-grid gap-3" style={{ paddingLeft: "1%", width: "100%", fontSize: "18px" }}>
                             <Container style={{ height: "100%", width: "100%" }}>
                                 <Row >
-                                    
-                                    <Col  md={visibleRT ? 7 : 12} style={{ height: "70%" }}>
-                                        
+
+                                    <Col md={visibleRT ? 7 : 12} style={{ height: "70%" }}>
+
                                         <div className="d-flex justify-content-left ">
                                             <div style={{ marginLeft: "%" }}>
-                                                <p><img className="circular-image" src={lImages[btnIdx]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
+                                                <p><img className="border circular-image" src={lImages[btnIdx]} alt="Logo" style={{ height: "60px", width: "60px", borderRadius: "50%", overflow: "hidden", fontSize: 50 }} /> </p>
                                             </div>
                                             <div style={{ paddingLeft: "1%" }}>
                                                 <p> <b>{lUser[btnIdx]} @{lUser[btnIdx]}</b></p>
@@ -978,7 +910,7 @@ function ContentView({ order, uid, ct, pid }) {
 
 
                                     </Col>
-                                    <Col  md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
+                                    <Col md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
                                         {RatingTrust(btnIdx, 'post')}
                                     </Col>
                                 </Row>
@@ -988,12 +920,12 @@ function ContentView({ order, uid, ct, pid }) {
                             <Container style={{ height: "100%" }}>
                                 <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4].includes(cond) | (_responses.length != 0 & !visibleRT) ? 'block' : 'none' }}><h4>Comments</h4></Row>
                                 <Row style={{ marginTop: '1%', width: "100%" }}>
-                                    <Col xs={12} md={visibleRT ? 7 : 12} style={{ }}>
+                                    <Col xs={12} md={visibleRT ? 7 : 12} style={{}}>
                                         <div>
-                                            {AccordionResp(data.replies, data, btnIdx, false, true, cond)}
+                                            {AccordionResp(data.replies, data, btnIdx, cond)}
                                         </div>
                                     </Col>
-                                    <Col xs={6} md={5} style={{  display: visibleRT ? 'block' : 'none' }}>
+                                    <Col xs={6} md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
                                         <div style={{ display: [0, 1, 2, 3, 4].includes(cond) ? 'block' : 'none' }}>
                                             {RatingTrust(btnIdx, 'comment')}
                                         </div>
@@ -1022,13 +954,13 @@ function ContentView({ order, uid, ct, pid }) {
         switch (ord) {
             case 1:
                 lMainOrd = lPostOrder_1;
-                return SetPost(mdata.posts[lPostOrder_1[idx]], lPostTzpes_1[idx], idx);
+                return SetPost(mdata.posts[lPostOrder_1[idx]], lPostTzpes_1[lPostOrder_1[idx]], idx);
             case 2:
                 lMainOrd = lPostOrder_2;
-                return SetPost(mdata.posts[lPostOrder_2[idx]], lPostTzpes_2[idx], idx);
+                return SetPost(mdata.posts[lPostOrder_2[idx]], lPostTzpes_2[lPostOrder_2[idx]], idx);
             case 3:
                 lMainOrd = lPostOrder_3;
-                return SetPost(mdata.posts[lPostOrder_3[idx]], lPostTzpes_3[idx], idx);
+                return SetPost(mdata.posts[lPostOrder_3[idx]], lPostTzpes_3[lPostOrder_3[idx]], idx);
             case 4:
                 lMainOrd = lPostOrder_4;
                 return SetPost(mdata.posts[lPostOrder_4[idx]], lPostTzpes_4[lPostOrder_4[idx]], idx);

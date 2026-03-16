@@ -1,7 +1,7 @@
 const mdata = {
     posts: [{
         title: "Post 1",
-        mainPost: "I read that the flu vaccine provided no protection this season and was actually associated with a higher risk of infection for working-aged adults,.",
+        mainPost: "I read that the flu vaccine provided no protection in the 2024-2025 season and was actually associated with a higher risk of infection for working-aged adults,.",
         mainURL: "https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.CD006207.pub6/full",
         supportiveURL: "https://www.medrxiv.org/content/10.1101/2025.01.30.25321421v4",
         supportiveHComment: "This aligns with the report here: ",
