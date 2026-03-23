@@ -65,7 +65,7 @@ function sendMessage(message) {
         });
 }
 
-function ContentView({order, uid, ct, pid }) {
+function ContentView({ order, uid, ct, pid }) {
 
     const color_1 = '#0e46ff'
     const color_2 = '#0d6efd'
@@ -145,12 +145,26 @@ function ContentView({order, uid, ct, pid }) {
         [4, 11, 36],
         [4, 9, 35]
     ];
+    var lIntCntCom = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+    ];
 
     const initialPost = {
-        share: 0,
-        like: 0,
-        bookmark: 0,
-        reply: 0,
+        comment_share: 0,
+        post_share: 0,
+        comment_like: 0,
+        post_like: 0,
+        comment_bookmark: 0,
+        post_bookmark: 0,
+        comment_reply: 0,
+        post_reply: 0,
         trustRank: 0,
         trustRankComment: 0,
         opnMatch: 0,
@@ -184,18 +198,28 @@ function ContentView({order, uid, ct, pid }) {
     }, []);
 
     var mainOrd = 4;
+    var mainTOrd = lPostTzpes_4;
+    var mainPOrd = lPostOrder_4;
     switch (order) {
         case '1':
             mainOrd = 1;
+            mainTOrd = lPostTzpes_1;
+            mainPOrd = lPostOrder_1;
             break;
         case '2':
             mainOrd = 2;
+            mainTOrd = lPostTzpes_2;
+            mainPOrd = lPostOrder_2;
             break;
         case '3':
             mainOrd = 3;
+            mainTOrd = lPostTzpes_2;
+            mainPOrd = lPostOrder_3;
             break;
         case '4':
             mainOrd = 4;
+            mainTOrd = lPostTzpes_2;
+            mainPOrd = lPostOrder_4;
             break;
     }
     //var repliesJson = {'accRespId_1': ['wewefwfe']}
@@ -247,7 +271,7 @@ function ContentView({order, uid, ct, pid }) {
         var done = true;
         for (var i = 0; i < copiedShopCart.posts.length; i++) {
             console.log(i, copiedShopCart.posts[i]['trustRank'], copiedShopCart.posts[i]['opnMatch'])
-            if (copiedShopCart.posts[i]['trustRank'] < 1 | copiedShopCart.posts[i]['opnMatch'] < 1 | (lPostTzpes_4[lPostOrder_4[i]] != 5 & copiedShopCart.posts[i]['trustRankComment'] < 1)) {
+            if (copiedShopCart.posts[i]['trustRank'] < 1 | copiedShopCart.posts[i]['opnMatch'] < 1 | (mainTOrd[mainPOrd[i]] != 5 & copiedShopCart.posts[i]['trustRankComment'] < 1)) {
                 done = false;
                 break;
             }
@@ -323,7 +347,7 @@ function ContentView({order, uid, ct, pid }) {
         );
     }
 
-    function ButtonsAll(btnIdx) {
+    function ButtonsAll(type, btnIdx) {
         const [buttonShareText, setButtonShareText] = useState(' Share');
         const [iconShareColor, setIconShareColor] = useState('#ffffff');
         const [buttonBkmkText, setButtonBkmkText] = useState(' Bookmark');
@@ -333,21 +357,29 @@ function ContentView({order, uid, ct, pid }) {
         const [buttonLikeText, setButtonLikeText] = useState(' Like');
         const [iconLikeColor, setIconLikeColor] = useState('#ffffff');
 
-        const [cntShare, setCntShare] = useState(lIntCnt[btnIdx][1]);
-        const [cntLike, setCntLike] = useState(lIntCnt[btnIdx][2]);
-        var btnShareId = 'share_btn_' + btnIdx;
-        var btnLikeId = 'like_btn_' + btnIdx;
-        var btnBkmkId = 'bkmk_btn_' + btnIdx;
-        var btnReplyId = 'reply_btn_' + btnIdx;
+        var shareCnt = lIntCnt[btnIdx][1];
+        var likeCnt = lIntCnt[btnIdx][2];
+        if (type == 'comment'){
+            shareCnt = lIntCntCom[btnIdx][1]
+            likeCnt = lIntCntCom[btnIdx][2]
+        }
+        const [cntShare, setCntShare] = useState(shareCnt);
+        const [cntLike, setCntLike] = useState(likeCnt);
+        
+        var btnShareId = 'share_btn_' + type + btnIdx;
+        var btnLikeId = 'like_btn_' + type + btnIdx;
+        var btnBkmkId = 'bkmk_btn_' + type + btnIdx;
+        var btnReplyId = 'reply_btn_' + type + btnIdx;
         const [checked, setChecked] = useState(false);
 
 
-        const [clickedReplies, setclickedReplies] = useState([false, false, false, false, false, false, false, false]);
         const [clickedReply, setclickedReply] = useState(false);
-
-        const [isHovered, setIsHovered] = React.useState(false);
-
-        const buttonStyle = {
+        
+        
+        
+        /* 
+        const [clickedReplies, setclickedReplies] = useState([false, false, false, false, false, false, false, false]);
+        const [isHovered, setIsHovered] = React.useState(false);const buttonStyle = {
             borderColor: '#ffffff',
             color: isHovered ? '#ffffff' : '#6859a0ff',
             background: isHovered ? '#6859a0ff' : '#a3a1be',
@@ -356,11 +388,11 @@ function ContentView({order, uid, ct, pid }) {
         };
         function checkState() {
             let copiedShopCart = { ...shopCart };
-        }
+        }*/
         function handleShareClick() {
             let copiedShopCart = { ...shopCart };
-            copiedShopCart['posts'][btnIdx]['share'] == 0 ? setCntShare(cntShare + 1) : setCntShare(cntShare - 1);
-            (buttonShareText === ' Share') ? copiedShopCart['posts'][btnIdx]['share'] = 1 : copiedShopCart['posts'][btnIdx]['share'] = 0;
+            copiedShopCart['posts'][btnIdx][type + '_share'] == 0 ? setCntShare(cntShare + 1) : setCntShare(cntShare - 1);
+            (buttonShareText === ' Share') ? copiedShopCart['posts'][btnIdx][type + '_share'] = 1 : copiedShopCart['posts'][btnIdx][type + '_share'] = 0;
             (buttonShareText === ' Share') ? setButtonShareText(' Unshare') : setButtonShareText(' Share');
             (iconShareColor === color_1) ? setIconShareColor('#ffffff') : setIconShareColor(color_1);
 
@@ -374,8 +406,8 @@ function ContentView({order, uid, ct, pid }) {
         }
         function handleLikeClick() {
             let copiedShopCart = { ...shopCart };
-            copiedShopCart['posts'][btnIdx]['like'] == 0 ? setCntLike(cntLike + 1) : setCntLike(cntLike - 1);
-            (buttonLikeText === ' Like') ? copiedShopCart['posts'][btnIdx]['like'] = 1 : copiedShopCart['posts'][btnIdx]['like'] = 0;
+            copiedShopCart['posts'][btnIdx][type + '_like'] == 0 ? setCntLike(cntLike + 1) : setCntLike(cntLike - 1);
+            (buttonLikeText === ' Like') ? copiedShopCart['posts'][btnIdx][type + '_like'] = 1 : copiedShopCart['posts'][btnIdx][type + '_like'] = 0;
             (buttonLikeText === ' Like') ? setButtonLikeText(' Liked') : setButtonLikeText(' Like');
             (iconLikeColor === color_1) ? setIconLikeColor('#ffffff') : setIconLikeColor(color_1);
 
@@ -390,7 +422,7 @@ function ContentView({order, uid, ct, pid }) {
         }
         function handleBkmkClick() {
             let copiedShopCart = { ...shopCart };
-            (buttonBkmkText === ' Bookmark') ? copiedShopCart['posts'][btnIdx]['bookmark'] = 1 : copiedShopCart['posts'][btnIdx]['bookmark'] = 0;
+            (buttonBkmkText === ' Bookmark') ? copiedShopCart['posts'][btnIdx][type + '_bookmark'] = 1 : copiedShopCart['posts'][btnIdx][type + '_bookmark'] = 0;
             (buttonBkmkText === ' Bookmark') ? setButtonBkmkText(' Bookmarked') : setButtonBkmkText(' Bookmark');
             (iconBkmkColor === color_1) ? setIconBkmkColor('#ffffff') : setIconBkmkColor(color_1);
 
@@ -406,7 +438,7 @@ function ContentView({order, uid, ct, pid }) {
         function handleReplyClick() {
             setclickedReply(clickedReply ? false : true);
             let copiedShopCart = { ...shopCart };
-            (buttonReplyText === ' Comment') ? copiedShopCart['posts'][btnIdx]['reply'] = 1 : copiedShopCart['posts'][btnIdx]['reply'] = 0;
+            (buttonReplyText === ' Comment') ? copiedShopCart['posts'][btnIdx][type + '_reply'] = 1 : copiedShopCart['posts'][btnIdx][type + '_reply'] = 0;
             (iconReplyColor === color_1) ? setIconReplyColor('#ffffff') : setIconReplyColor(color_1);
 
             setShopCart(shopCart => ({
@@ -516,7 +548,7 @@ function ContentView({order, uid, ct, pid }) {
         console.log(shopCart);
     }
 
-    function RatingTrust(btnIdx, textType) {
+    function RatingTrust(textType, btnIdx) {
 
         const [rateValue, setRateValue] = useState(0);
         const setRV1 = () => {
@@ -911,9 +943,12 @@ function ContentView({order, uid, ct, pid }) {
 
                                     </Col>
                                     <Col md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
-                                        {RatingTrust(btnIdx, 'post')}
+                                        {RatingTrust('post', btnIdx)}
                                     </Col>
                                 </Row>
+                                <Row><div>
+                                    {ButtonsAll('post', btnIdx)}
+                                </div></Row>
 
                             </Container>
 
@@ -927,12 +962,12 @@ function ContentView({order, uid, ct, pid }) {
                                     </Col>
                                     <Col xs={6} md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
                                         <div style={{ display: [0, 1, 2, 3, 4].includes(cond) ? 'block' : 'none' }}>
-                                            {RatingTrust(btnIdx, 'comment')}
+                                            {RatingTrust('comment', btnIdx)}
                                         </div>
                                     </Col>
                                 </Row>
-                                <Row><div>
-                                    {ButtonsAll(btnIdx)}
+                                <Row><div style={{ display: [0, 1, 2, 3, 4].includes(cond) ? 'block' : 'none' }}>
+                                    {ButtonsAll('comment', btnIdx)}
                                 </div></Row>
 
                             </Container>
