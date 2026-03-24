@@ -271,7 +271,7 @@ function ContentView({ order, uid, ct, pid }) {
         var done = true;
         for (var i = 0; i < copiedShopCart.posts.length; i++) {
             console.log(i, copiedShopCart.posts[i]['trustRank'], copiedShopCart.posts[i]['opnMatch'])
-            if (copiedShopCart.posts[i]['trustRank'] < 1 | copiedShopCart.posts[i]['opnMatch'] < 1 | (mainTOrd[mainPOrd[i]] != 5 & copiedShopCart.posts[i]['trustRankComment'] < 1)) {
+            if (copiedShopCart.posts[i]['trustRank'] < 1  | (mainTOrd[mainPOrd[i]] != 5 & copiedShopCart.posts[i]['trustRankComment'] < 1)) {
                 done = false;
                 break;
             }
@@ -359,13 +359,13 @@ function ContentView({ order, uid, ct, pid }) {
 
         var shareCnt = lIntCnt[btnIdx][1];
         var likeCnt = lIntCnt[btnIdx][2];
-        if (type == 'comment'){
+        if (type == 'comment') {
             shareCnt = lIntCntCom[btnIdx][1]
             likeCnt = lIntCntCom[btnIdx][2]
         }
         const [cntShare, setCntShare] = useState(shareCnt);
         const [cntLike, setCntLike] = useState(likeCnt);
-        
+
         var btnShareId = 'share_btn_' + type + btnIdx;
         var btnLikeId = 'like_btn_' + type + btnIdx;
         var btnBkmkId = 'bkmk_btn_' + type + btnIdx;
@@ -374,9 +374,9 @@ function ContentView({ order, uid, ct, pid }) {
 
 
         const [clickedReply, setclickedReply] = useState(false);
-        
-        
-        
+
+
+
         /* 
         const [clickedReplies, setclickedReplies] = useState([false, false, false, false, false, false, false, false]);
         const [isHovered, setIsHovered] = React.useState(false);const buttonStyle = {
@@ -626,42 +626,70 @@ function ContentView({ order, uid, ct, pid }) {
             return (<div className="d-flex align-items-start flex-column" style={{ width: "100%", marginLeft: "5%", marginTop: "5%", fontSize: "18px" }}>
                 <div style={{ width: "100%" }}>
                     <p>How trustworthy do you find this {textType}?</p>
-                    <Form>
+                    <Form className=" small">
                         {['radio'].map((type) => (
                             <div key={`inline-${type}`} className="mb-3">
-                                <Form.Label>{formCheckLabel}</Form.Label>
-                                <Form.Text>     </Form.Text>
+
                                 <Form.Check
-                                    inline
+                                    
+                                    
                                     name="group1"
                                     type={type}
+                                    label="Not at all Trustworthy "
                                     onChange={textType == "comment" ? setRVC1 : setRV1}
                                     id={`inline-${type}-1`}
                                 />
                                 <Form.Check
-                                    inline
+                                    
+                                    
                                     name="group1"
                                     type={type}
+                                    label="Slightly Untrustworthy"
                                     onChange={textType == "comment" ? setRVC2 : setRV2}
                                     id={`inline-${type}-2`}
                                 />
                                 <Form.Check
-                                    inline
+                                    
+                                    
                                     name="group1"
                                     type={type}
+                                    label="Somewhat Untrustworthy "
                                     onChange={textType == "comment" ? setRVC3 : setRV3}
                                     id={`inline-${type}-3`}
                                 />
                                 <Form.Check
-                                    inline
+                                    
+                                    
                                     name="group1"
                                     type={type}
+                                    label="Neutral Trustworthy "
                                     onChange={textType == "comment" ? setRVC4 : setRV4}
                                     id={`inline-${type}-4`}
                                 />
                                 <Form.Check
-                                    inline
-                                    label="Totally"
+                                    
+                                    
+                                    label="Somewhat Trustworthy "
+                                    name="group1"
+                                    type={type}
+                                    onChange={textType == "comment" ? setRVC5 : setRV5}
+                                    id={`inline-${type}-5`}
+                                />
+                                <Form.Check
+                                    
+
+                                    
+                                    name="group1"
+                                    type={type}
+                                    label="Mostly Trustworthy "
+                                    onChange={textType == "comment" ? setRVC4 : setRV4}
+                                    id={`inline-${type}-4`}
+                                />
+                                <Form.Check
+                                    
+
+                                    
+                                    label="Totally Trustworthy "
                                     name="group1"
                                     type={type}
                                     onChange={textType == "comment" ? setRVC5 : setRV5}
@@ -672,7 +700,7 @@ function ContentView({ order, uid, ct, pid }) {
                     </Form>
 
                 </div>
-                <div style={{ width: "100%", display: textType == "comment" ? 'none' : 'block' }}>
+                <div style={{ width: "100%", display: textType == "comment" ? 'none' : 'none' }}>
                     <p>I believe the statement is true.</p>
                     <Form>
                         {['radio'].map((type) => (
@@ -732,7 +760,7 @@ function ContentView({ order, uid, ct, pid }) {
         }
     }
 
-    function AccordionResp(responses, data, postIdx, cond) {
+    function AccordionResp(responses, data, postIdx, cond, addLink) {
 
         //var _responses = responses.concat(repliesJson['accRespId_1']);
         var lnewreplies = lSupReplies;
@@ -824,7 +852,7 @@ function ContentView({ order, uid, ct, pid }) {
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][0]]} @{names[lReplyIdx[postIdx][0]]}</b></p>
-                                    <p style={{ wordBreak: "break-all" }} >  {response}  <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
+                                    <p style={{ wordBreak: "break-all" }} >  {response}  <a  style={{ display: addLink ? 'block' : 'none' }} href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
                             </div>
@@ -839,7 +867,7 @@ function ContentView({ order, uid, ct, pid }) {
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][1]]} @{names[lReplyIdx[postIdx][1]]}</b></p>
-                                    <p style={{ wordBreak: "break-all" }}>  {response} <a href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
+                                    <p style={{ wordBreak: "break-all" }}>  {response} <a style={{ display: addLink ? 'block' : 'none' }} href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
 
@@ -921,7 +949,7 @@ function ContentView({ order, uid, ct, pid }) {
         }
         else {
             return (
-                <div key={btnIdx} className="border border-top border-bottom d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%", marginBottom: "2%" }}>
+                <div key={btnIdx} className="border border-top border-bottom d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%", marginBottom: "2%"  , borderWidth: "10px"}}>
                     <div className="d-flex justify-content-center" style={{ marginTop: '1%', width: "100%" }}>
 
                         <div className="rounded-3 d-grid gap-3" style={{ paddingLeft: "1%", width: "100%", fontSize: "18px" }}>
@@ -953,11 +981,11 @@ function ContentView({ order, uid, ct, pid }) {
                             </Container>
 
                             <Container style={{ height: "100%" }}>
-                                <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4].includes(cond) | (_responses.length != 0 & !visibleRT) ? 'block' : 'none' }}><h4>Comments</h4></Row>
+                                <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4].includes(cond) | (_responses.length != 0 & !visibleRT) ? 'block' : 'none', borderWidth: "10px" }}><h4>Comments</h4></Row>
                                 <Row style={{ marginTop: '1%', width: "100%" }}>
                                     <Col xs={12} md={visibleRT ? 7 : 12} style={{}}>
                                         <div>
-                                            {AccordionResp(data.replies, data, btnIdx, cond)}
+                                            {AccordionResp(data.replies, data, btnIdx, cond, true)}
                                         </div>
                                     </Col>
                                     <Col xs={6} md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
@@ -1016,7 +1044,7 @@ function ContentView({ order, uid, ct, pid }) {
         <hr className="hr" />
 
         <h1>Timeline</h1>
-        <div className=" border-right rounded-3 " style={{ marginTop: "2%", marginBottom: "2%" }}>
+        <div className=" border-right rounded-3 " style={{ marginTop: "2%", marginBottom: "2%", borderWidth: "medium" }}>
             <div>
                 {mdata.posts.map((item, index) => (
                     setOrder(mainOrd, index)
