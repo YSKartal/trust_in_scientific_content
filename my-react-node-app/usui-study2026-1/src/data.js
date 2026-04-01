@@ -49,7 +49,7 @@ const mdata = {
         title: "Post 3",
         mainPost2: "I found a study and it turns out current global warming is driven by natural forces rather than human activity.",
         mainPost3: "I found a study and it turns out natural factors drive 2/3 of global warming, leaving only 1/3 caused by greenhouse gases.",
-        mainPost: "Recent researches showing that human activities like industrial production and livestock are the primary drivers behind the rise in global temperatures..",
+        mainPost: "Recent researches showing that human activities like industrial production and livestock are the primary drivers behind the rise in global temperatures.",
         mainURL: "https://www.mdpi.com/1467-3045/44/3/73#B39-cimb-44-00073",
         supportiveURL: "https://www.proquest.com/docview/2577586172?fromopenview=true&pq-origsite=gscholar&sourcetype=Conference%20Papers%20&%20Proceedings",
         supportiveURL_: "https://scienceofclimatechange.org/wp-content/uploads/SCC-Vol5.3-Huijser-Balancing-Act.pdf",
