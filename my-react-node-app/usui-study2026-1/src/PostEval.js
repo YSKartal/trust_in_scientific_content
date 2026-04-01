@@ -32,7 +32,7 @@ import w_8 from './assets/images/w_8.jpg';
 import w_9 from './assets/images/w_9.jpg';
 import w_10 from './assets/images/w_10.jpg';
 import w_11 from './assets/images/w_11.jpg';
-import r_1 from './assets/images/r_1.jpg';
+import r_1 from './assets/images/r_1.png';
 import m_1 from './assets/images/m_1.jpg';
 import m_2 from './assets/images/m_2.jpg';
 import m_3 from './assets/images/m_3.jpg';
@@ -69,9 +69,10 @@ function ContentView({ order, uid, ct, pid }) {
 
     const color_1 = '#0e46ff'
     const color_2 = '#0d6efd'
-    const instr_1 = "Please imagine that you are an active social media user who regularly engages with content online. You will be presented with a timeline containing posts and comments created by other users and by AI agent that operate independently of the social media platform. ";
-    const instr_2 = 'Please review the timeline again. For each post and comment, rate (a) how trustworthy you find it and, for posts only, (b) the extent to which it aligns with your own opinion.';
-    const instr_3 = 'For each post, indicate whether you want to share or like it. ';
+    const instr_1 = "Please imagine that you are an active social media user who regularly engages with content online. You will be presented with a timeline containing posts and comments created by other users and by an AI agent that operate independently of the social media platform. ";
+    //const instr_2 = 'Please review the timeline again. For each post and comment, rate (a) how trustworthy you find it and, for posts only, (b) the extent to which it aligns with your own opinion.';
+    const instr_2 = 'Please review the timeline again. For each post and comment, rate how trustworthy you find it.';
+    const instr_3 = 'For each post, indicate whether you would like to share it, like it, or do neither.';
     const instr_4 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively ...";
     // const tempURL = 'https://localhost:3001/register/';
     //const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi/index.php?i=' + ct;
@@ -91,10 +92,18 @@ function ContentView({ order, uid, ct, pid }) {
     const lPostOrder_3 = [3, 0, 6, 5, 7, 1, 4, 2]
     const lPostOrder_4 = [2, 3, 5, 6, 7, 0, 1, 4]*/
     // 1: human +; 2: human -; 3: AI +; 4: AI -
-    const lPostTzpes_1 = [1, 3, 4, 2, 5, 5, 5, 5]
-    const lPostTzpes_2 = [3, 2, 1, 4, 5, 5, 5, 5]
-    const lPostTzpes_3 = [2, 3, 4, 1, 5, 5, 5, 5]
-    const lPostTzpes_4 = [4, 1, 2, 3, 5, 5, 5, 5]
+    //const lPostTzpes_1 = [1, 3, 4, 2, 6, 8, 9, 7]
+    //const lPostTzpes_2 = [3, 2, 1, 4, 8, 7, 6, 9]
+    //const lPostTzpes_3 = [2, 3, 4, 1, 7, 8, 9, 6]
+    //const lPostTzpes_4 = [4, 1, 2, 3, 9, 6, 7, 8]
+    const lPostTzpes_1 = [1, 4, 4, 1, 6, 9, 9, 6]
+    const lPostTzpes_2 = [3, 2, 2, 3, 8, 7, 7, 8]
+    const lPostTzpes_3 = [2, 3, 3, 2, 7, 8, 8, 7]
+    const lPostTzpes_4 = [4, 1, 1, 4, 9, 6, 6, 9]
+    const lPostCTypes_1 = [1, 2, 1, 2, 1, 2, 1, 2]
+    const lPostCTypes_2 = [2, 1, 2, 1, 2, 1, 2, 1]
+    const lPostCTypes_3 = [1, 2, 1, 2, 1, 2, 1, 2]
+    const lPostCTypes_4 = [2, 1, 2, 1, 2, 1, 2, 1]
 
     //const lImages = [pp_5, pp_6, pp_1, pp_7, pp_2, pp_3, pp_8, pp_4]
     const lImages = [pp_0, pp_0, pp_0, pp_0, pp_0, pp_0, pp_0, pp_0]
@@ -200,32 +209,39 @@ function ContentView({ order, uid, ct, pid }) {
     var mainOrd = 4;
     var mainTOrd = lPostTzpes_4;
     var mainPOrd = lPostOrder_4;
+    var mainCOrd = lPostCTypes_1;
     switch (order) {
         case '1':
             mainOrd = 1;
             mainTOrd = lPostTzpes_1;
             mainPOrd = lPostOrder_1;
+            mainCOrd = lPostCTypes_1;
             break;
         case '2':
             mainOrd = 2;
             mainTOrd = lPostTzpes_2;
             mainPOrd = lPostOrder_2;
+            mainCOrd = lPostCTypes_2;
             break;
         case '3':
             mainOrd = 3;
-            mainTOrd = lPostTzpes_2;
+            mainTOrd = lPostTzpes_3;
             mainPOrd = lPostOrder_3;
+            mainCOrd = lPostCTypes_3;
             break;
         case '4':
             mainOrd = 4;
-            mainTOrd = lPostTzpes_2;
+            mainTOrd = lPostTzpes_4;
             mainPOrd = lPostOrder_4;
+            mainCOrd = lPostCTypes_4;
             break;
     }
     //var repliesJson = {'accRespId_1': ['wewefwfe']}
     //const [repliesJson, setrepliesJson] = useState({'accRespId_1': ['wewefwfe']})
     const lSupReplies = ['Correct, this aligns with the report here: ', 'Exactly, as shown in this paper', 'Here is a paper supporting that', 'Backed by this study: '];
+    const lSupReplies2 = ['', '', '', '', 'That is correct. ', 'True.', 'Exactly.', "That's right"];
     const lConReplies = ['This paper shows otherwise: ', 'Not true, opposite findings in ', 'Refuted by this report ', 'This is inaccurate, as shown in: '];
+    const lConReplies2 = ['', '', '', '', 'False.', 'That is wrong.', 'Incorrect.', "That's false."];
     const [repliesJson, setrepliesJson] = useState({ 'accRespId_0': [], 'accRespId_1': [], 'accRespId_2': [], 'accRespId_3': [], 'accRespId_4': [], 'accRespId_5': [], 'accRespId_6': [], 'accRespId_7': [] });
     const [isreplied, setisreplied] = useState({ 'isrepliedId_0': false, 'isrepliedId_1': false, 'isrepliedId_2': false, 'isrepliedId_3': false, 'isrepliedId_4': false, 'isrepliedId_5': false, 'isrepliedId_6': false, 'isrepliedId_7': false });
 
@@ -241,7 +257,7 @@ function ContentView({ order, uid, ct, pid }) {
         sendMessage({ 'type': 'next_page', 'uid': uid, 'ct': ct, 'pid': pid });
 
         Swal.fire({
-            'text': 'Please check the posts and comments in the timeline again and tell us how trustworthy you find them and to what extend they match your opinion.',
+            'text': 'Please review the timeline again. For each post and comment, rate how trustworthy you find it.',
             allowOutsideClick: false,
             didClose: () => window.scrollTo(0, 0)
         }).then(() => {
@@ -271,7 +287,7 @@ function ContentView({ order, uid, ct, pid }) {
         var done = true;
         for (var i = 0; i < copiedShopCart.posts.length; i++) {
             console.log(i, copiedShopCart.posts[i]['trustRank'], copiedShopCart.posts[i]['opnMatch'])
-            if (copiedShopCart.posts[i]['trustRank'] < 1  | (mainTOrd[mainPOrd[i]] != 5 & copiedShopCart.posts[i]['trustRankComment'] < 1)) {
+            if (copiedShopCart.posts[i]['trustRank'] < 1 | (mainTOrd[mainPOrd[i]] != 5 & copiedShopCart.posts[i]['trustRankComment'] < 1)) {
                 done = false;
                 break;
             }
@@ -631,65 +647,65 @@ function ContentView({ order, uid, ct, pid }) {
                             <div key={`inline-${type}`} className="mb-3">
 
                                 <Form.Check
-                                    
-                                    
+
+
                                     name="group1"
                                     type={type}
-                                    label="Not at all Trustworthy "
+                                    label="Not at all trustworthy "
                                     onChange={textType == "comment" ? setRVC1 : setRV1}
                                     id={`inline-${type}-1`}
                                 />
                                 <Form.Check
-                                    
-                                    
+
+
                                     name="group1"
                                     type={type}
-                                    label="Slightly Untrustworthy"
+                                    label="Slightly untrustworthy"
                                     onChange={textType == "comment" ? setRVC2 : setRV2}
                                     id={`inline-${type}-2`}
                                 />
                                 <Form.Check
-                                    
-                                    
+
+
                                     name="group1"
                                     type={type}
-                                    label="Somewhat Untrustworthy "
+                                    label="Somewhat untrustworthy "
                                     onChange={textType == "comment" ? setRVC3 : setRV3}
                                     id={`inline-${type}-3`}
                                 />
                                 <Form.Check
-                                    
-                                    
+
+
                                     name="group1"
                                     type={type}
-                                    label="Neutral Trustworthy "
+                                    label="Neutral"
                                     onChange={textType == "comment" ? setRVC4 : setRV4}
                                     id={`inline-${type}-4`}
                                 />
                                 <Form.Check
-                                    
-                                    
-                                    label="Somewhat Trustworthy "
+
+
+                                    label="Somewhat trustworthy "
                                     name="group1"
                                     type={type}
                                     onChange={textType == "comment" ? setRVC5 : setRV5}
                                     id={`inline-${type}-5`}
                                 />
                                 <Form.Check
-                                    
 
-                                    
+
+
                                     name="group1"
                                     type={type}
-                                    label="Mostly Trustworthy "
+                                    label="Mostly trustworthy "
                                     onChange={textType == "comment" ? setRVC4 : setRV4}
                                     id={`inline-${type}-4`}
                                 />
                                 <Form.Check
-                                    
 
-                                    
-                                    label="Totally Trustworthy "
+
+
+                                    label="Totally trustworthy "
                                     name="group1"
                                     type={type}
                                     onChange={textType == "comment" ? setRVC5 : setRV5}
@@ -768,33 +784,54 @@ function ContentView({ order, uid, ct, pid }) {
         var dataUrl = data.supportiveURL;
         var ifH = false;
         var ifAI = false;
-        if (cond == 5) {
-            ifH = false;
-            ifAI = false;
+        if (cond > 5) {
+            cond = cond - 5;
+            addLink = false;
         }
-        else if (cond == 1) {
+        console.log(mainCOrd[lMainOrd[postIdx]] );
+        var changed = false;
+        if (mainCOrd[lMainOrd[postIdx]] == 2)
+            {
+                changed = true;
+                if (cond==1) {
+                    cond = 2;
+                }
+                else if (cond==2) {
+                    cond = 1;
+                }
+                else if (cond==3) {
+                    cond = 4;
+                }
+                else if (cond==4) {
+                    cond = 3;
+                }
+            }
+        if (cond == 1) {
             ifH = true;
             ifAI = false;
-            response = lSupReplies[lMainOrd[postIdx]];
-            dataUrl = data.supportiveURL;
+            response = addLink ? lSupReplies[lMainOrd[postIdx]] : lSupReplies2[lMainOrd[postIdx]];
+            dataUrl = changed ? data.contradictingURL : data.supportiveURL;
         }
         else if (cond == 2) {
             ifH = true;
             ifAI = false;
-            response = lConReplies[lMainOrd[postIdx]];
-            dataUrl = data.contradictingURL;
+            response = addLink ? lConReplies[lMainOrd[postIdx]] : lConReplies2[lMainOrd[postIdx]];
+            //dataUrl = data.contradictingURL;
+            dataUrl = changed ? data.supportiveURL : data.contradictingURL;
         }
         else if (cond == 3) {
             ifH = false;
             ifAI = true;
-            response = lSupReplies[lMainOrd[postIdx]];
+            response = addLink ? lSupReplies[lMainOrd[postIdx]] : lSupReplies2[lMainOrd[postIdx]];
             dataUrl = data.supportiveURL;
+            dataUrl = changed ? data.contradictingURL : data.supportiveURL;
         }
         else if (cond == 4) {
             ifH = false;
             ifAI = true;
-            response = lConReplies[lMainOrd[postIdx]];
+            response = addLink ? lConReplies[lMainOrd[postIdx]] : lConReplies2[lMainOrd[postIdx]];
             dataUrl = data.contradictingURL;
+            dataUrl = changed ? data.supportiveURL : data.contradictingURL;
         }
 
         var _responses = repliesJson['accRespId_' + postIdx];
@@ -852,7 +889,7 @@ function ContentView({ order, uid, ct, pid }) {
                                 </div>
                                 <div style={{ paddingLeft: "1%" }}>
                                     <p> <b>{names[lReplyIdx[postIdx][0]]} @{names[lReplyIdx[postIdx][0]]}</b></p>
-                                    <p style={{ wordBreak: "break-all" }} >  {response}  <a  style={{ display: addLink ? 'block' : 'none' }} href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
+                                    <p style={{ wordBreak: "break-all" }} >  {response}  <a style={{ display: addLink ? 'block' : 'none' }} href={dataUrl} onClick={(e) => hcLink(data.title)} target="_blank">{dataUrl}</a> </p>
 
                                 </div>
                             </div>
@@ -913,7 +950,9 @@ function ContentView({ order, uid, ct, pid }) {
 
     function SetPost(data, cond, btnIdx) {
 
-
+        var mainPost = mainCOrd[lMainOrd[btnIdx]] == 1 ? data.mainPost : data.mainPost2;
+        //console.log(mainCOrd[lMainOrd[btnIdx]]);
+        
 
 
         function hcLink(post_id) {
@@ -922,7 +961,7 @@ function ContentView({ order, uid, ct, pid }) {
 
         var _responses = repliesJson['accRespId_' + btnIdx];
 
-        if (cond == 6) {
+        if (cond == 16) {
             return (<div key={btnIdx} className=" border border d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%" }}>
                 <div className="d-flex justify-content-center" >
                     <div style={{ marginLeft: "1%" }}>
@@ -931,7 +970,7 @@ function ContentView({ order, uid, ct, pid }) {
                     </div>
                     <div className="rounded-3 d-grid gap-3" style={{ paddingLeft: "1%", width: "150%", fontSize: "18px" }}>
                         <p> <b>{lUser[btnIdx]} @{lUser[btnIdx]}</b></p>
-                        <p>  {data.mainPost} <a href={data.mainURL} onClick={(e) => hcLink(data.title)} target="_blank">{data.mainRURL}</a></p>
+                        <p>  {mainPost} <a href={data.mainURL} onClick={(e) => hcLink(data.title)} target="_blank">{data.mainRURL}</a></p>
 
                         <div>
                             {SetCondition(cond, data, btnIdx)}
@@ -949,7 +988,7 @@ function ContentView({ order, uid, ct, pid }) {
         }
         else {
             return (
-                <div key={btnIdx} className="border border-top border-bottom d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%", marginBottom: "2%"  , borderWidth: "10px"}}>
+                <div key={btnIdx} className="border border-top border-bottom d-grid gap-3" style={{ alignItems: 'flex-start', paddingLeft: "2%", paddingTop: "2%", paddingBottom: "2%", paddingRight: "2%", marginBottom: "2%", borderWidth: "10px" }}>
                     <div className="d-flex justify-content-center" style={{ marginTop: '1%', width: "100%" }}>
 
                         <div className="rounded-3 d-grid gap-3" style={{ paddingLeft: "1%", width: "100%", fontSize: "18px" }}>
@@ -964,7 +1003,7 @@ function ContentView({ order, uid, ct, pid }) {
                                             </div>
                                             <div style={{ paddingLeft: "1%" }}>
                                                 <p> <b>{lUser[btnIdx]} @{lUser[btnIdx]}</b></p>
-                                                <p>  {data.mainPost} </p>
+                                                <p>  {mainPost} </p>
                                             </div>
                                         </div>
 
@@ -981,7 +1020,7 @@ function ContentView({ order, uid, ct, pid }) {
                             </Container>
 
                             <Container style={{ height: "100%" }}>
-                                <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4].includes(cond) | (_responses.length != 0 & !visibleRT) ? 'block' : 'none', borderWidth: "10px" }}><h4>Comments</h4></Row>
+                                <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4, 6, 7, 8, 9].includes(cond) | (_responses.length != 0 & !visibleRT) ? 'block' : 'none', borderWidth: "10px" }}><h4>Comments</h4></Row>
                                 <Row style={{ marginTop: '1%', width: "100%" }}>
                                     <Col xs={12} md={visibleRT ? 7 : 12} style={{}}>
                                         <div>
@@ -989,12 +1028,12 @@ function ContentView({ order, uid, ct, pid }) {
                                         </div>
                                     </Col>
                                     <Col xs={6} md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
-                                        <div style={{ display: [0, 1, 2, 3, 4].includes(cond) ? 'block' : 'none' }}>
+                                        <div style={{ display: [0, 1, 2, 3, 4, 6, 7, 8, 9].includes(cond) ? 'block' : 'none' }}>
                                             {RatingTrust('comment', btnIdx)}
                                         </div>
                                     </Col>
                                 </Row>
-                                <Row><div style={{ display: [0, 1, 2, 3, 4].includes(cond) ? 'block' : 'none' }}>
+                                <Row><div style={{ display: [0, 1, 2, 3, 4, 6, 7, 8, 9].includes(cond) ? 'block' : 'none' }}>
                                     {ButtonsAll('comment', btnIdx)}
                                 </div></Row>
 
@@ -1039,7 +1078,7 @@ function ContentView({ order, uid, ct, pid }) {
 
             <p  ><b>Please read the following instruction carefully!</b></p>
             <p>{visibleRT ? instr_2 : instr_1}</p>
-            <p><b>{visibleRT ? '' : 'For each post, please indicate whether you want to share or like it.'}</b></p>
+            <p><b>{visibleRT ? '' : 'For each post, please indicate whether you would like to share it, like it, or do neither.'}</b></p>
         </div>
         <hr className="hr" />
 
