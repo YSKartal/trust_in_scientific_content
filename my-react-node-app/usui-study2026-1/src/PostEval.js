@@ -69,7 +69,7 @@ function ContentView({ order, uid, ct, pid }) {
 
     const color_1 = '#0e46ff'
     const color_2 = '#0d6efd'
-    const instr_1 = "Please imagine that you are an active social media user who regularly engages with content online. You will be presented with a timeline containing posts and comments created by other users and by an AI agent that operate independently of the social media platform. ";
+    const instr_1 = "Please imagine that you are an active social media user. You will be presented with a timeline containing posts and comments created by other users and by an AI agent that operates independently of the social media platform. ";
     //const instr_2 = 'Please review the timeline again. For each post and comment, rate (a) how trustworthy you find it and, for posts only, (b) the extent to which it aligns with your own opinion.';
     const instr_2 = 'Please review the timeline again. For each post and comment, rate how trustworthy you find it.';
     const instr_3 = 'For each post, indicate whether you would like to share it, like it, or do neither.';
