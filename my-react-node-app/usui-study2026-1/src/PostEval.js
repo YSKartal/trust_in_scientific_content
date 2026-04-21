@@ -85,6 +85,10 @@ function ContentView({ order, uid, ct, pid }) {
     const [lPostOrder_2, setlPostOrder_2] = useState(getShuffled);
     const [lPostOrder_3, setlPostOrder_3] = useState(getShuffled);
     const [lPostOrder_4, setlPostOrder_4] = useState(getShuffled);
+    const [lPostOrder_5, setlPostOrder_5] = useState(getShuffled);
+    const [lPostOrder_6, setlPostOrder_6] = useState(getShuffled);
+    const [lPostOrder_7, setlPostOrder_7] = useState(getShuffled);
+    const [lPostOrder_8, setlPostOrder_8] = useState(getShuffled);
 
     console.log(lPostOrder_3, lPostOrder_4);
     /*const lPostOrder_1 = [7, 3, 5, 2, 4, 0, 1, 6]
@@ -100,10 +104,18 @@ function ContentView({ order, uid, ct, pid }) {
     const lPostTzpes_2 = [3, 2, 2, 3, 8, 7, 7, 8]
     const lPostTzpes_3 = [2, 3, 3, 2, 7, 8, 8, 7]
     const lPostTzpes_4 = [4, 1, 1, 4, 9, 6, 6, 9]
+    const lPostTzpes_5 = [6, 9, 9, 6, 1, 4, 4, 1]
+    const lPostTzpes_6 = [8, 7, 7, 8, 3, 2, 2, 3]
+    const lPostTzpes_7 = [7, 8, 8, 7, 2, 3, 3, 2]
+    const lPostTzpes_8 = [9, 6, 6, 9, 4, 1, 1, 4]
     const lPostCTypes_1 = [1, 2, 1, 2, 1, 2, 1, 2]
     const lPostCTypes_2 = [2, 1, 2, 1, 2, 1, 2, 1]
     const lPostCTypes_3 = [1, 2, 1, 2, 1, 2, 1, 2]
     const lPostCTypes_4 = [2, 1, 2, 1, 2, 1, 2, 1]
+    const lPostCTypes_5 = [1, 2, 1, 2, 1, 2, 1, 2]
+    const lPostCTypes_6 = [2, 1, 2, 1, 2, 1, 2, 1]
+    const lPostCTypes_7 = [1, 2, 1, 2, 1, 2, 1, 2]
+    const lPostCTypes_8 = [2, 1, 2, 1, 2, 1, 2, 1]
 
     //const lImages = [pp_5, pp_6, pp_1, pp_7, pp_2, pp_3, pp_8, pp_4]
     const lImages = [pp_0, pp_0, pp_0, pp_0, pp_0, pp_0, pp_0, pp_0]
@@ -235,13 +247,37 @@ function ContentView({ order, uid, ct, pid }) {
             mainPOrd = lPostOrder_4;
             mainCOrd = lPostCTypes_4;
             break;
+        case '5':
+            mainOrd = 5;
+            mainTOrd = lPostTzpes_5;
+            mainPOrd = lPostOrder_5;
+            mainCOrd = lPostCTypes_5;
+            break;
+        case '6':
+            mainOrd = 6;
+            mainTOrd = lPostTzpes_6;
+            mainPOrd = lPostOrder_6;
+            mainCOrd = lPostCTypes_6;
+            break;
+        case '7':
+            mainOrd = 7;
+            mainTOrd = lPostTzpes_7;
+            mainPOrd = lPostOrder_7;
+            mainCOrd = lPostCTypes_7;
+            break;
+        case '8':
+            mainOrd = 8;
+            mainTOrd = lPostTzpes_8;
+            mainPOrd = lPostOrder_8;
+            mainCOrd = lPostCTypes_8;
+            break;
     }
     //var repliesJson = {'accRespId_1': ['wewefwfe']}
     //const [repliesJson, setrepliesJson] = useState({'accRespId_1': ['wewefwfe']})
-    const lSupReplies = ['Correct, this aligns with the report here: ', 'Exactly, as shown in this paper', 'Here is a paper supporting that', 'Backed by this study: '];
-    const lSupReplies2 = ['', '', '', '', 'That is correct. ', 'True.', 'Exactly.', "That's right"];
-    const lConReplies = ['This paper shows otherwise: ', 'Not true, opposite findings in ', 'Refuted by this report ', 'This is inaccurate, as shown in: '];
-    const lConReplies2 = ['', '', '', '', 'False.', 'That is wrong.', 'Incorrect.', "That's false."];
+    const lSupReplies = ['Correct, this aligns with the report here: ', 'Exactly, as shown in this paper', 'Here is a paper supporting that', 'Backed by this study: ', 'Correct, this aligns with the report here: ', 'Exactly, as shown in this paper', 'Here is a paper supporting that', 'Backed by this study: '];
+    const lSupReplies2 = ['That is correct. ', 'Exactly.', 'True.', "That's right", 'That is correct. ', 'Exactly.', 'True.', "That's right"];
+    const lConReplies = ['This paper shows otherwise: ', 'Opposite findings in ', 'Refuted by this report ', 'This is inaccurate, as shown in: ', 'This paper shows otherwise: ', 'Opposite findings in ', 'Refuted by this report ', 'This is inaccurate, as shown in: '];
+    const lConReplies2 = ['False.', 'That is wrong.', 'Incorrect.', "That's false.", 'False.', 'That is wrong.', 'Incorrect.', "That's false."];
     const [repliesJson, setrepliesJson] = useState({ 'accRespId_0': [], 'accRespId_1': [], 'accRespId_2': [], 'accRespId_3': [], 'accRespId_4': [], 'accRespId_5': [], 'accRespId_6': [], 'accRespId_7': [] });
     const [isreplied, setisreplied] = useState({ 'isrepliedId_0': false, 'isrepliedId_1': false, 'isrepliedId_2': false, 'isrepliedId_3': false, 'isrepliedId_4': false, 'isrepliedId_5': false, 'isrepliedId_6': false, 'isrepliedId_7': false });
 
@@ -1020,7 +1056,7 @@ function ContentView({ order, uid, ct, pid }) {
                             </Container>
 
                             <Container style={{ height: "100%" }}>
-                                <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4, 6, 7, 8, 9].includes(cond) | (_responses.length != 0 & !visibleRT) ? 'block' : 'none', borderWidth: "10px" }}><h4>Comments</h4></Row>
+                                <Row className='border-bottom border-top' style={{ display: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(cond) | (_responses.length != 0 & !visibleRT) ? 'block' : 'none', borderWidth: "10px" }}><h4>Comments</h4></Row>
                                 <Row style={{ marginTop: '1%', width: "100%" }}>
                                     <Col xs={12} md={visibleRT ? 7 : 12} style={{}}>
                                         <div>
@@ -1028,12 +1064,12 @@ function ContentView({ order, uid, ct, pid }) {
                                         </div>
                                     </Col>
                                     <Col xs={6} md={5} style={{ display: visibleRT ? 'block' : 'none' }}>
-                                        <div style={{ display: [0, 1, 2, 3, 4, 6, 7, 8, 9].includes(cond) ? 'block' : 'none' }}>
+                                        <div style={{ display: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(cond) ? 'block' : 'none' }}>
                                             {RatingTrust('comment', btnIdx)}
                                         </div>
                                     </Col>
                                 </Row>
-                                <Row><div style={{ display: [0, 1, 2, 3, 4, 6, 7, 8, 9].includes(cond) ? 'block' : 'none' }}>
+                                <Row><div style={{ display: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(cond) ? 'block' : 'none' }}>
                                     {ButtonsAll('comment', btnIdx)}
                                 </div></Row>
 
@@ -1066,6 +1102,18 @@ function ContentView({ order, uid, ct, pid }) {
             case 4:
                 lMainOrd = lPostOrder_4;
                 return SetPost(mdata.posts[lPostOrder_4[idx]], lPostTzpes_4[lPostOrder_4[idx]], idx);
+            case 5:
+                lMainOrd = lPostOrder_5;
+                return SetPost(mdata.posts[lPostOrder_5[idx]], lPostTzpes_5[lPostOrder_5[idx]], idx);
+            case 6:
+                lMainOrd = lPostOrder_6;
+                return SetPost(mdata.posts[lPostOrder_6[idx]], lPostTzpes_6[lPostOrder_6[idx]], idx);
+            case 7:
+                lMainOrd = lPostOrder_7;
+                return SetPost(mdata.posts[lPostOrder_7[idx]], lPostTzpes_7[lPostOrder_7[idx]], idx);
+            case 8:
+                lMainOrd = lPostOrder_8;
+                return SetPost(mdata.posts[lPostOrder_8[idx]], lPostTzpes_8[lPostOrder_8[idx]], idx);
             default:
                 lMainOrd = lPostOrder_1;
                 return SetPost(mdata.posts[lPostOrder_1[idx]], lPostTzpes_1[idx], idx);
