@@ -80,6 +80,8 @@ function ContentView({ order, uid, ct, pid }) {
     const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi500701/index.php?i=' + ct;
     var er = 0;
 
+    const [page, setPage] = useState('first');
+
     var regOrder = [0, 1, 2, 3, 4, 5, 6, 7];
     const getShuffled = () => [...regOrder].sort(() => Math.random() - 0.5);
     const [lPostOrder_1, setlPostOrder_1] = useState(getShuffled);
@@ -91,7 +93,7 @@ function ContentView({ order, uid, ct, pid }) {
     const [lPostOrder_7, setlPostOrder_7] = useState(getShuffled);
     const [lPostOrder_8, setlPostOrder_8] = useState(getShuffled);
 
-    console.log(lPostOrder_3, lPostOrder_4);
+
     /*const lPostOrder_1 = [7, 3, 5, 2, 4, 0, 1, 6]
     const lPostOrder_2 = [2, 6, 3, 7, 1, 4, 5, 0]
     const lPostOrder_3 = [3, 0, 6, 5, 7, 1, 4, 2]
@@ -190,34 +192,13 @@ function ContentView({ order, uid, ct, pid }) {
         trustRank: 0,
         trustRankComment: 0,
         opnMatch: 0,
+        prid: -1,
         shareText: '',
     };
 
     const [shopCart, setShopCart] = useState({
         posts: Array.from({ length: 8 }, () => ({ ...initialPost }))
     });
-
-    const [init, setInit] = useState(true);
-    const [init2, setInit2] = useState(false);
-    if (init) {
-        sendMessage({ 'type': 'begin', 'uid': uid, 'ct': ct, 'pid': pid, 'order': order });
-        setInit(false);
-        setInit2(true);
-
-        Swal.fire({
-            title: instr_1 + instr_3,
-            showCloseButton: false,
-            allowEscapeKey: false,
-            animation: false,
-            allowOutsideClick: false,
-            topLayer: true,
-            icon: 'warning',
-        });
-        Swal.disableButtons();
-    }
-    useEffect(() => {
-        setTimeout(() => init2 ? Swal.enableButtons() : {}, 5000);
-    }, []);
 
     var mainOrd = 4;
     var mainTOrd = lPostTzpes_4;
@@ -273,6 +254,40 @@ function ContentView({ order, uid, ct, pid }) {
             mainCOrd = lPostCTypes_8;
             break;
     }
+
+    const [init, setInit] = useState(true);
+    const [init2, setInit2] = useState(false);
+    if (init) {
+
+        console.log(mainTOrd, mainPOrd, mainCOrd);
+        sendMessage({ 'type': 'begin', 'uid': uid, 'ct': ct, 'pid': pid, 'order': order, 'mainTOrd': mainTOrd, 'mainPOrd': mainPOrd, 'mainCOrd': mainCOrd });
+        setInit(false);
+        setInit2(true);
+
+        let copiedShopCart = { ...shopCart };
+        for (var i = 0; i < copiedShopCart.posts.length; i++) {
+            copiedShopCart['posts'][i]['prid'] = mainPOrd[i];
+        }
+        setShopCart(shopCart => ({
+            ...copiedShopCart
+        }));
+
+        Swal.fire({
+            title: instr_1 + instr_3,
+            showCloseButton: false,
+            allowEscapeKey: false,
+            animation: false,
+            allowOutsideClick: false,
+            topLayer: true,
+            icon: 'warning',
+        });
+        Swal.disableButtons();
+    }
+    useEffect(() => {
+        setTimeout(() => init2 ? Swal.enableButtons() : {}, 5000);
+    }, []);
+
+
     //var repliesJson = {'accRespId_1': ['wewefwfe']}
     //const [repliesJson, setrepliesJson] = useState({'accRespId_1': ['wewefwfe']})
     const lSupReplies = ['Correct, this aligns with the report here: ', 'Exactly, as shown in this paper', 'Here is a paper supporting that', 'Backed by this study: ', 'Correct, this aligns with the report here: ', 'Exactly, as shown in this paper', 'Here is a paper supporting that', 'Backed by this study: '];
@@ -292,7 +307,7 @@ function ContentView({ order, uid, ct, pid }) {
     const [onClickHandler, setOnClickHandler] = useState(() => firstFunction);
     function firstFunction() {
         sendMessage({ 'type': 'next_page', 'uid': uid, 'ct': ct, 'pid': pid });
-
+        setPage('second');
         Swal.fire({
             'text': 'Please review the timeline again. For each post and comment, rate how trustworthy you find it.',
             allowOutsideClick: false,
@@ -454,7 +469,7 @@ function ContentView({ order, uid, ct, pid }) {
             }));
             console.log(shopCart);
             console.log(btnIdx, uid);
-            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart });
+            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart, 'prid': mainPOrd[btnIdx] });
 
         }
         function handleLikeClick() {
@@ -470,7 +485,7 @@ function ContentView({ order, uid, ct, pid }) {
             console.log(shopCart);
             console.log(btnIdx, uid);
 
-            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart });
+            sendMessage({ 'type': 'like', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart, 'prid': mainPOrd[btnIdx] });
 
         }
         function handleBkmkClick() {
@@ -485,7 +500,7 @@ function ContentView({ order, uid, ct, pid }) {
             console.log(shopCart);
             console.log(btnIdx, uid);
 
-            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart });
+            sendMessage({ 'type': 'bookmark', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart, 'prid': mainPOrd[btnIdx] });
 
         }
         function handleReplyClick() {
@@ -500,8 +515,7 @@ function ContentView({ order, uid, ct, pid }) {
             console.log(shopCart);
             console.log(btnIdx, uid);
 
-
-            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart });
+            sendMessage({ 'type': 'reply', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart, 'prid': mainPOrd[btnIdx] });
 
         }
         function handleSendReplyClick() {
@@ -513,7 +527,7 @@ function ContentView({ order, uid, ct, pid }) {
             setrepliesJson(repliesJson);
             isreplied['isrepliedId_' + btnIdx] = true;
             setisreplied(isreplied);
-            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart });
+            sendMessage({ 'type': 'reply', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart });
             handleReplyClick();
             document.getElementById('textarea_reply_' + btnIdx).value = '';
 
@@ -565,11 +579,7 @@ function ContentView({ order, uid, ct, pid }) {
                     <div className="eqi-container"><p style={{ width: "14%", fontSize: 16 }}>Please enter your comment here:</p>
                         <Form.Control id={'textarea_reply_' + btnIdx} as="textarea" rows={2} style={{ width: "68%" }}>  </Form.Control> <Button disabled={visibleRT} style={{ width: "13%", backgroundColor: color_1 }} onClick={handleSendReplyClick}>Send</Button>
                     </div>
-
                 </div>
-
-
-
             </div>
         );
     }
@@ -624,6 +634,14 @@ function ContentView({ order, uid, ct, pid }) {
             setRateValue(5);
             shop1(5, btnIdx);
         };
+        const setRV6 = () => {
+            setRateValue(6);
+            shop1(6, btnIdx);
+        };
+        const setRV7 = () => {
+            setRateValue(7);
+            shop1(7, btnIdx);
+        };
         const [oMatchValue, setOMatchValue] = useState(0);
         const setOMV1 = () => {
             setOMatchValue(1);
@@ -649,7 +667,15 @@ function ContentView({ order, uid, ct, pid }) {
             setOMatchValue(6);
             setOpnMatch(6, btnIdx);
         };
+        const setOMV7 = () => {
+            setOMatchValue(7);
+            setOpnMatch(7, btnIdx);
+        };
         const [rateValueComment, setRateValueComment] = useState(0);
+        const setRVC = (rating) => {
+            setRateValueComment(rating);
+            setEntity('trustRankComment', rating, btnIdx);
+        };
         const setRVC1 = () => {
             setRateValueComment(1);
             setEntity('trustRankComment', 1, btnIdx);
@@ -669,6 +695,14 @@ function ContentView({ order, uid, ct, pid }) {
         const setRVC5 = () => {
             setRateValueComment(5);
             setEntity('trustRankComment', 5, btnIdx);
+        };
+        const setRVC6 = () => {
+            setRateValueComment(6);
+            setEntity('trustRankComment', 6, btnIdx);
+        };
+        const setRVC7 = () => {
+            setRateValueComment(7);
+            setEntity('trustRankComment', 7, btnIdx);
         };
 
         const formCheckLabel = "Not at all   ";
@@ -735,7 +769,7 @@ function ContentView({ order, uid, ct, pid }) {
                                     name="group1"
                                     type={type}
                                     label="Mostly trustworthy "
-                                    onChange={textType == "comment" ? setRVC4 : setRV4}
+                                    onChange={textType == "comment" ? setRVC6 : setRV6}
                                     id={`inline-${type}-4`}
                                 />
                                 <Form.Check
@@ -745,7 +779,7 @@ function ContentView({ order, uid, ct, pid }) {
                                     label="Totally trustworthy "
                                     name="group1"
                                     type={type}
-                                    onChange={textType == "comment" ? setRVC5 : setRV5}
+                                    onChange={textType == "comment" ? setRVC7 : setRV7}
                                     id={`inline-${type}-5`}
                                 />
                             </div>
@@ -825,24 +859,23 @@ function ContentView({ order, uid, ct, pid }) {
             cond = cond - 5;
             addLink = false;
         }
-        console.log(mainCOrd[lMainOrd[postIdx]] );
+        //console.log(mainCOrd[lMainOrd[postIdx]] );
         var changed = false;
-        if (mainCOrd[lMainOrd[postIdx]] == 2)
-            {
-                changed = true;
-                if (cond==1) {
-                    cond = 2;
-                }
-                else if (cond==2) {
-                    cond = 1;
-                }
-                else if (cond==3) {
-                    cond = 4;
-                }
-                else if (cond==4) {
-                    cond = 3;
-                }
+        if (mainCOrd[lMainOrd[postIdx]] == 2) {
+            changed = true;
+            if (cond == 1) {
+                cond = 2;
             }
+            else if (cond == 2) {
+                cond = 1;
+            }
+            else if (cond == 3) {
+                cond = 4;
+            }
+            else if (cond == 4) {
+                cond = 3;
+            }
+        }
         if (cond == 1) {
             ifH = true;
             ifAI = false;
@@ -883,7 +916,7 @@ function ContentView({ order, uid, ct, pid }) {
         };
 
         function hcLink(post_id) {
-            sendMessage({ 'type': 'post', 'uid': uid, 'ct': ct, 'pid': pid, 'index': postIdx, 'sub_type': 'link_click', 'post_id': post_id });
+            sendMessage({ 'type': 'content', 'uid': uid, 'ct': ct, 'pid': pid, 'index': postIdx, 'sub_type': 'link_click', 'post_id': post_id, 'prid': mainPOrd[postIdx], 'page': page });
         };
 
         if (false && visibleRT) {
@@ -989,11 +1022,11 @@ function ContentView({ order, uid, ct, pid }) {
 
         var mainPost = mainCOrd[lMainOrd[btnIdx]] == 1 ? data.mainPost : data.mainPost2;
         //console.log(mainCOrd[lMainOrd[btnIdx]]);
-        
+
 
 
         function hcLink(post_id) {
-            sendMessage({ 'type': 'post', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'sub_type': 'link_click', 'post_id': post_id });
+            sendMessage({ 'type': 'post', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'sub_type': 'link_click', 'post_id': post_id, 'prid': mainPOrd[btnIdx] });
         };
 
         var _responses = repliesJson['accRespId_' + btnIdx];

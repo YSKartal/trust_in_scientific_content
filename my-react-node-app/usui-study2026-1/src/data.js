@@ -25,7 +25,7 @@ const mdata = {
     {
         title: "Post 2",
         mainPost2: "Study shows that the risk of developing several types of cancer significantly increased one year after COVID vaccination.",
-        mainPost: "Research is examining how COVID-19 and its vaccines might impact cancer development even though no direct cause has been proven.",
+        mainPost: "Research suggests COVID-19 and its vaccines might impact cancer development even though no direct cause has been proven.",
         mainURL: "https://www.mdpi.com/2077-0383/11/8/2219",
         contradictingURL: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12465339/",
         supportiveHComment: "Exactly, as shown in this paper ",
@@ -47,7 +47,7 @@ const mdata = {
     },
     {
         title: "Post 3",
-        mainPost2: "I found a study and it turns out current global warming is driven by natural forces rather than human activity.",
+        mainPost2: "Recent research is showing that current global warming is driven by natural forces rather than human activity.",
         mainPost3: "I found a study and it turns out natural factors drive 2/3 of global warming, leaving only 1/3 caused by greenhouse gases.",
         mainPost: "Recent research is showing that human activities like industrial production and livestock are the primary drivers behind the rise in global temperatures.",
         mainURL: "https://www.mdpi.com/1467-3045/44/3/73#B39-cimb-44-00073",
