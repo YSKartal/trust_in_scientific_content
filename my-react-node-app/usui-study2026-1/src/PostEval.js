@@ -73,7 +73,7 @@ function ContentView({ order, uid, ct, pid }) {
     const instr_1 = "You will be presented with a timeline containing posts and comments created by other users and by an AI agent that operates independently of the social media platform. ";
     //const instr_2 = 'Please review the timeline again. For each post and comment, rate (a) how trustworthy you find it and, for posts only, (b) the extent to which it aligns with your own opinion.';
     const instr_2 = 'Please review the timeline again. For each post and comment, rate how trustworthy you find it.';
-    const instr_3 = 'For each post, indicate whether you would like to share it, like it, or do neither.';
+    const instr_3 = 'For each post, indicate whether you would like to share, like, bookmark, or perform none of these actions. As on most social media platforms, external links can be opened to view sources, and engagement actions (e.g., shares, likes, and bookmarks) can be undone.';
     const instr_4 = "Imagine you are an active social media user, i.e., you use social media platforms in your daily life interactively ...";
     // const tempURL = 'https://localhost:3001/register/';
     //const redirectUrl = 'https://www.soscisurvey.de/user-study-smsi/index.php?i=' + ct;
@@ -1160,7 +1160,7 @@ function ContentView({ order, uid, ct, pid }) {
 
             <p  ><b>Please read the following instruction carefully!</b></p>
             <p>{visibleRT ? instr_2 : instr_1}</p>
-            <p><b>{visibleRT ? '' : 'For each post, please indicate whether you would like to share it, like it, or do neither.'}</b></p>
+            <p><b>{visibleRT ? '' : 'For each post, indicate whether you would like to share, like, bookmark, or perform none of these actions. As on most social media platforms, external links can be opened to view sources, and engagement actions (e.g., shares, likes, and bookmarks) can be undone.'}</b></p>
         </div>
         <hr className="hr" />
 
