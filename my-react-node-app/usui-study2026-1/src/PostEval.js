@@ -104,21 +104,21 @@ function ContentView({ order, uid, ct, pid }) {
     //const lPostTzpes_3 = [2, 3, 4, 1, 7, 8, 9, 6]
     //const lPostTzpes_4 = [4, 1, 2, 3, 9, 6, 7, 8]
     const lPostTzpes_1 = [1, 4, 4, 1, 6, 9, 9, 6]
-    const lPostTzpes_2 = [3, 2, 2, 3, 8, 7, 7, 8]
-    const lPostTzpes_3 = [2, 3, 3, 2, 7, 8, 8, 7]
+    const lPostTzpes_2 = [4, 1, 1, 4, 9, 6, 6, 9]
+    const lPostTzpes_3 = [1, 4, 4, 1, 6, 9, 9, 6]
     const lPostTzpes_4 = [4, 1, 1, 4, 9, 6, 6, 9]
     const lPostTzpes_5 = [6, 9, 9, 6, 1, 4, 4, 1]
-    const lPostTzpes_6 = [8, 7, 7, 8, 3, 2, 2, 3]
-    const lPostTzpes_7 = [7, 8, 8, 7, 2, 3, 3, 2]
+    const lPostTzpes_6 = [9, 6, 6, 9, 4, 1, 1, 4]
+    const lPostTzpes_7 = [6, 9, 9, 6, 1, 4, 4, 1]
     const lPostTzpes_8 = [9, 6, 6, 9, 4, 1, 1, 4]
     const lPostCTypes_1 = [1, 2, 1, 2, 1, 2, 1, 2]
     const lPostCTypes_2 = [2, 1, 2, 1, 2, 1, 2, 1]
-    const lPostCTypes_3 = [1, 2, 1, 2, 1, 2, 1, 2]
-    const lPostCTypes_4 = [2, 1, 2, 1, 2, 1, 2, 1]
+    const lPostCTypes_4 = [1, 2, 1, 2, 1, 2, 1, 2]
+    const lPostCTypes_3 = [2, 1, 2, 1, 2, 1, 2, 1]
     const lPostCTypes_5 = [1, 2, 1, 2, 1, 2, 1, 2]
     const lPostCTypes_6 = [2, 1, 2, 1, 2, 1, 2, 1]
-    const lPostCTypes_7 = [1, 2, 1, 2, 1, 2, 1, 2]
-    const lPostCTypes_8 = [2, 1, 2, 1, 2, 1, 2, 1]
+    const lPostCTypes_8 = [1, 2, 1, 2, 1, 2, 1, 2]
+    const lPostCTypes_7 = [2, 1, 2, 1, 2, 1, 2, 1]
 
     //const lImages = [pp_5, pp_6, pp_1, pp_7, pp_2, pp_3, pp_8, pp_4]
     const lImages = [pp_0, pp_0, pp_0, pp_0, pp_0, pp_0, pp_0, pp_0]
@@ -299,7 +299,7 @@ function ContentView({ order, uid, ct, pid }) {
 
     const [activeNext, setActiveNext] = useState(true);
     useEffect(() => {
-        setTimeout(() => setActiveNext(false), 5000);
+        setTimeout(() => setActiveNext(false), 30000);
     }, []);
 
     const [visibleRT, setVisibleRT] = useState(false);
@@ -397,7 +397,7 @@ function ContentView({ order, uid, ct, pid }) {
             console.log(shopCart);
             console.log(btnIdx, uid);
 
-            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart });
+            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx });
 
         }
 
@@ -469,7 +469,7 @@ function ContentView({ order, uid, ct, pid }) {
             }));
             console.log(shopCart);
             console.log(btnIdx, uid);
-            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart, 'prid': mainPOrd[btnIdx] });
+            sendMessage({ 'type': 'share', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'prid': mainPOrd[btnIdx] });
 
         }
         function handleLikeClick() {
@@ -485,7 +485,7 @@ function ContentView({ order, uid, ct, pid }) {
             console.log(shopCart);
             console.log(btnIdx, uid);
 
-            sendMessage({ 'type': 'like', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart, 'prid': mainPOrd[btnIdx] });
+            sendMessage({ 'type': 'like', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'prid': mainPOrd[btnIdx] });
 
         }
         function handleBkmkClick() {
@@ -500,7 +500,7 @@ function ContentView({ order, uid, ct, pid }) {
             console.log(shopCart);
             console.log(btnIdx, uid);
 
-            sendMessage({ 'type': 'bookmark', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart, 'prid': mainPOrd[btnIdx] });
+            sendMessage({ 'type': 'bookmark', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'prid': mainPOrd[btnIdx] });
 
         }
         function handleReplyClick() {
@@ -515,7 +515,7 @@ function ContentView({ order, uid, ct, pid }) {
             console.log(shopCart);
             console.log(btnIdx, uid);
 
-            sendMessage({ 'type': 'reply', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart, 'prid': mainPOrd[btnIdx] });
+            sendMessage({ 'type': 'reply', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'prid': mainPOrd[btnIdx] });
 
         }
         function handleSendReplyClick() {
@@ -527,7 +527,7 @@ function ContentView({ order, uid, ct, pid }) {
             setrepliesJson(repliesJson);
             isreplied['isrepliedId_' + btnIdx] = true;
             setisreplied(isreplied);
-            sendMessage({ 'type': 'reply', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, data: shopCart });
+            sendMessage({ 'type': 'reply', 'uid': uid, 'ct': ct, 'pid': pid, 'index': btnIdx, 'prid': mainPOrd[btnIdx] });
             handleReplyClick();
             document.getElementById('textarea_reply_' + btnIdx).value = '';
 
